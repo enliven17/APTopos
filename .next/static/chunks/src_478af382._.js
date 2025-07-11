@@ -11,8 +11,9 @@ __turbopack_context__.s({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-redux/dist/react-redux.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$components$2f$dist$2f$styled$2d$components$2e$browser$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-components/dist/styled-components.browser.esm.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/node_modules/@aptos-labs/wallet-adapter-react/dist/index.mjs [app-client] (ecmascript) <module evaluation>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/@aptos-labs/wallet-adapter-react/dist/index.mjs [app-client] (ecmascript) <locals>");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
@@ -22,41 +23,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 function UserBetsScreen() {
     _s();
-    const [connectedAddress, setConnectedAddress] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    // Cüzdan bağlantı durumunu takip et
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "UserBetsScreen.useEffect": ()=>{
-            const checkWalletConnection = {
-                "UserBetsScreen.useEffect.checkWalletConnection": ()=>{
-                    if (window.ethereum && window.ethereum.selectedAddress) {
-                        setConnectedAddress(window.ethereum.selectedAddress);
-                    } else {
-                        setConnectedAddress(null);
-                    }
-                }
-            }["UserBetsScreen.useEffect.checkWalletConnection"];
-            checkWalletConnection();
-            // Cüzdan değişikliklerini dinle
-            if (window.ethereum) {
-                window.ethereum.on('accountsChanged', checkWalletConnection);
-                window.ethereum.on('connect', checkWalletConnection);
-                window.ethereum.on('disconnect', {
-                    "UserBetsScreen.useEffect": ()=>setConnectedAddress(null)
-                }["UserBetsScreen.useEffect"]);
-            }
-            return ({
-                "UserBetsScreen.useEffect": ()=>{
-                    if (window.ethereum) {
-                        window.ethereum.removeListener('accountsChanged', checkWalletConnection);
-                        window.ethereum.removeListener('connect', checkWalletConnection);
-                        window.ethereum.removeListener('disconnect', {
-                            "UserBetsScreen.useEffect": ()=>setConnectedAddress(null)
-                        }["UserBetsScreen.useEffect"]);
-                    }
-                }
-            })["UserBetsScreen.useEffect"];
-        }
-    }["UserBetsScreen.useEffect"], []);
+    const { account, connected } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useWallet"])();
     const markets = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
         "UserBetsScreen.useSelector[markets]": (state)=>state.markets.markets
     }["UserBetsScreen.useSelector[markets]"]);
@@ -65,32 +32,32 @@ function UserBetsScreen() {
     }["UserBetsScreen.useSelector[rewards]"]);
     const defiQ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
         "UserBetsScreen.useSelector[defiQ]": (state)=>{
-            if (!connectedAddress) return 0;
-            return state.markets.userDefiQ[connectedAddress] || 0;
+            if (!account?.address) return 0;
+            return state.markets.userDefiQ[account.address.toString()] || 0;
         }
     }["UserBetsScreen.useSelector[defiQ]"]);
     // Kullanıcının tüm bahisleri
-    const myBets = connectedAddress ? markets.flatMap((m)=>m.bets.filter((b)=>b.userId === connectedAddress).map((b)=>({
+    const myBets = account?.address ? markets.flatMap((m)=>m.bets.filter((b)=>b.userId === account.address.toString()).map((b)=>({
                 ...b,
                 market: m
             }))) : [];
     // Kazanılan bahisler (ödül claim edilebilir veya edildi)
-    const myRewards = connectedAddress ? rewards.filter((r)=>r.userId === connectedAddress) : [];
+    const myRewards = account?.address ? rewards.filter((r)=>r.userId === account.address.toString()) : [];
     const getStatusIcon = (status, result, side)=>{
         if (status === "resolved") {
             return result === side ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCheckCircle"], {}, void 0, false, {
                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                lineNumber: 54,
+                lineNumber: 27,
                 columnNumber: 32
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaTimesCircle"], {}, void 0, false, {
                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                lineNumber: 54,
+                lineNumber: 27,
                 columnNumber: 52
             }, this);
         }
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaClock"], {}, void 0, false, {
             fileName: "[project]/src/screens/UserBetsScreen.tsx",
-            lineNumber: 56,
+            lineNumber: 29,
             columnNumber: 12
         }, this);
     };
@@ -102,7 +69,7 @@ function UserBetsScreen() {
                         children: "My Bet History"
                     }, void 0, false, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 62,
+                        lineNumber: 35,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Stats, {
@@ -113,20 +80,20 @@ function UserBetsScreen() {
                                         children: "Total Bets"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 65,
+                                        lineNumber: 38,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatValue, {
                                         children: myBets.length
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 66,
+                                        lineNumber: 39,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 64,
+                                lineNumber: 37,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatItem, {
@@ -135,20 +102,20 @@ function UserBetsScreen() {
                                         children: "Rewards"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 69,
+                                        lineNumber: 42,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatValue, {
                                         children: myRewards.length
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 70,
+                                        lineNumber: 43,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 68,
+                                lineNumber: 41,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatItem, {
@@ -163,39 +130,39 @@ function UserBetsScreen() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 73,
+                                                lineNumber: 46,
                                                 columnNumber: 24
                                             }, this),
                                             "DEFiq"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 73,
+                                        lineNumber: 46,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StatValue, {
                                         children: defiQ
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 74,
+                                        lineNumber: 47,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 72,
+                                lineNumber: 45,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 63,
+                        lineNumber: 36,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                lineNumber: 61,
+                lineNumber: 34,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Section, {
@@ -206,7 +173,7 @@ function UserBetsScreen() {
                                 children: "My Bets"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 81,
+                                lineNumber: 54,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SectionCount, {
@@ -216,13 +183,13 @@ function UserBetsScreen() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 82,
+                                lineNumber: 55,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 80,
+                        lineNumber: 53,
                         columnNumber: 9
                     }, this),
                     myBets.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyState, {
@@ -231,27 +198,27 @@ function UserBetsScreen() {
                                 children: "🎲"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 87,
+                                lineNumber: 60,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyTitle, {
                                 children: "No bets yet"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 88,
+                                lineNumber: 61,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyText, {
                                 children: "Start betting on markets to see your history here"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 89,
+                                lineNumber: 62,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 86,
+                        lineNumber: 59,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetsGrid, {
                         children: myBets.map((bet)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetCard, {
@@ -262,50 +229,50 @@ function UserBetsScreen() {
                                                 children: bet.market.title
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 96,
+                                                lineNumber: 69,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetStatus, {
                                                 children: bet.market.status === "resolved" ? bet.market.result === bet.side ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(WinIcon, {
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCheckCircle"], {}, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 100,
+                                                        lineNumber: 73,
                                                         columnNumber: 36
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                    lineNumber: 100,
+                                                    lineNumber: 73,
                                                     columnNumber: 27
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(LoseIcon, {
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaTimesCircle"], {}, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 101,
+                                                        lineNumber: 74,
                                                         columnNumber: 37
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                    lineNumber: 101,
+                                                    lineNumber: 74,
                                                     columnNumber: 27
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OpenIcon, {
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaClock"], {}, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 102,
+                                                        lineNumber: 75,
                                                         columnNumber: 35
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                    lineNumber: 102,
+                                                    lineNumber: 75,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 97,
+                                                lineNumber: 70,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 95,
+                                        lineNumber: 68,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetDetails, {
@@ -316,7 +283,7 @@ function UserBetsScreen() {
                                                         children: "Side"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 108,
+                                                        lineNumber: 81,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DetailValue, {
@@ -324,13 +291,13 @@ function UserBetsScreen() {
                                                         children: bet.side === "yes" ? "Yes" : "No"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 109,
+                                                        lineNumber: 82,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 107,
+                                                lineNumber: 80,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetDetail, {
@@ -339,7 +306,7 @@ function UserBetsScreen() {
                                                         children: "Amount"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 115,
+                                                        lineNumber: 88,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DetailValue, {
@@ -350,13 +317,13 @@ function UserBetsScreen() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 116,
+                                                        lineNumber: 89,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 114,
+                                                lineNumber: 87,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetDetail, {
@@ -365,7 +332,7 @@ function UserBetsScreen() {
                                                         children: "Status"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 120,
+                                                        lineNumber: 93,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DetailValue, {
@@ -373,36 +340,36 @@ function UserBetsScreen() {
                                                             children: "Won"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                            lineNumber: 124,
+                                                            lineNumber: 97,
                                                             columnNumber: 29
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Lose, {
                                                             children: "Lost"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                            lineNumber: 125,
+                                                            lineNumber: 98,
                                                             columnNumber: 29
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Open, {
                                                             children: "Open"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                            lineNumber: 126,
+                                                            lineNumber: 99,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 121,
+                                                        lineNumber: 94,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 119,
+                                                lineNumber: 92,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 106,
+                                        lineNumber: 79,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetFooter, {
@@ -411,37 +378,37 @@ function UserBetsScreen() {
                                                 children: new Date(bet.timestamp).toLocaleDateString()
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 132,
+                                                lineNumber: 105,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetTime, {
                                                 children: new Date(bet.timestamp).toLocaleTimeString()
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 133,
+                                                lineNumber: 106,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 131,
+                                        lineNumber: 104,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, bet.id, true, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 94,
+                                lineNumber: 67,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 92,
+                        lineNumber: 65,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                lineNumber: 79,
+                lineNumber: 52,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Section, {
@@ -452,7 +419,7 @@ function UserBetsScreen() {
                                 children: "My Rewards"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 143,
+                                lineNumber: 116,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SectionCount, {
@@ -462,13 +429,13 @@ function UserBetsScreen() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 144,
+                                lineNumber: 117,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 142,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, this),
                     myRewards.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyState, {
@@ -477,27 +444,27 @@ function UserBetsScreen() {
                                 children: "🏆"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 149,
+                                lineNumber: 122,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyTitle, {
                                 children: "No rewards yet"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 150,
+                                lineNumber: 123,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyText, {
                                 children: "Win some bets to see your rewards here"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 151,
+                                lineNumber: 124,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 148,
+                        lineNumber: 121,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RewardsGrid, {
                         children: myRewards.map((r)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RewardCard, {
@@ -507,12 +474,12 @@ function UserBetsScreen() {
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RewardIcon, {
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCoins"], {}, void 0, false, {
                                                     fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                    lineNumber: 159,
+                                                    lineNumber: 132,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 158,
+                                                lineNumber: 131,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RewardStatus, {
@@ -520,13 +487,13 @@ function UserBetsScreen() {
                                                 children: r.claimed ? "Claimed" : "Claimable"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 161,
+                                                lineNumber: 134,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 157,
+                                        lineNumber: 130,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RewardDetails, {
@@ -537,7 +504,7 @@ function UserBetsScreen() {
                                                         children: "Market ID"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 168,
+                                                        lineNumber: 141,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DetailValue, {
@@ -547,13 +514,13 @@ function UserBetsScreen() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 169,
+                                                        lineNumber: 142,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 167,
+                                                lineNumber: 140,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RewardDetail, {
@@ -562,7 +529,7 @@ function UserBetsScreen() {
                                                         children: "Amount"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 173,
+                                                        lineNumber: 146,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DetailValue, {
@@ -573,47 +540,48 @@ function UserBetsScreen() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                        lineNumber: 174,
+                                                        lineNumber: 147,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                                lineNumber: 172,
+                                                lineNumber: 145,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                        lineNumber: 166,
+                                        lineNumber: 139,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, r.marketId, true, {
                                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                                lineNumber: 156,
+                                lineNumber: 129,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                        lineNumber: 154,
+                        lineNumber: 127,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/screens/UserBetsScreen.tsx",
-                lineNumber: 141,
+                lineNumber: 114,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/screens/UserBetsScreen.tsx",
-        lineNumber: 60,
+        lineNumber: 33,
         columnNumber: 5
     }, this);
 }
-_s(UserBetsScreen, "1H54g3kj+0shxM7eC+HqWQ9qGwY=", false, function() {
+_s(UserBetsScreen, "EPEgoY5VIRsOy0dqhZHf8oSnezQ=", false, function() {
     return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useWallet"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"]

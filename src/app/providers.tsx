@@ -26,7 +26,8 @@ export function AppProviders({ children }: { children: ReactNode }) {
   ];
 
   return (
-    <AptosWalletAdapterProvider plugins={wallets} autoConnect={true} dappConfig={{ network: Network.TESTNET }}>
+    // @ts-ignore
+    <AptosWalletAdapterProvider wallets={wallets} autoConnect={false} dappConfig={{ network: Network.TESTNET }}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>

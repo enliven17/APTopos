@@ -7,23 +7,37 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
+import CustomWalletModal from "@/components/CustomWalletModal";
+import React from "react";
 
 export function MainNav() {
   const pathname = usePathname();
-  const { account } = useWallet();
+  const { account, connect, wallets } = useWallet();
   const connectedAddress = account?.address?.toString();
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   const defiQ = useSelector((state: RootState) => {
     if (!connectedAddress) return 0;
     const reduxScore = state.markets.userDefiQ[connectedAddress];
     if (reduxScore !== undefined) return reduxScore;
-    // Redux'ta yoksa localStorage'dan oku
     if (typeof window !== 'undefined') {
       const localScore = localStorage.getItem(`defiq_${connectedAddress}`);
       if (localScore) return Number(localScore);
     }
     return 0;
   });
+
+  const handleConnect = async (walletName: string) => {
+    const wallet = wallets.find(w => w.name.toLowerCase().includes(walletName.toLowerCase()));
+    try {
+      if (wallet) {
+        await connect(wallet.name);
+      }
+    } catch (e) {
+      alert((e as any)?.message || e);
+    }
+    setModalOpen(false);
+  };
 
   return (
     <NavBar>
@@ -46,7 +60,44 @@ export function MainNav() {
           <DefiQValue>{defiQ}</DefiQValue>
         </DefiQBox>
         <WalletBox>
-          <WalletSelector />
+          {connectedAddress ? (
+            <button 
+              onClick={() => setModalOpen(true)} 
+              style={{
+                padding: '8px 18px', 
+                borderRadius: 10, 
+                background: '#10B981', 
+                color: '#fff', 
+                fontWeight: 600, 
+                border: 'none', 
+                fontSize: 14, 
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <span style={{fontSize: 12}}>✓</span>
+              {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
+            </button>
+          ) : (
+            <button 
+              onClick={() => setModalOpen(true)} 
+              style={{
+                padding: '8px 18px', 
+                borderRadius: 10, 
+                background: '#3B82F6', 
+                color: '#fff', 
+                fontWeight: 600, 
+                border: 'none', 
+                fontSize: 16, 
+                cursor: 'pointer'
+              }}
+            >
+              Connect Wallet
+            </button>
+          )}
+          <CustomWalletModal open={modalOpen} onClose={() => setModalOpen(false)} onConnect={handleConnect} />
         </WalletBox>
       </FlexRow>
     </NavBar>

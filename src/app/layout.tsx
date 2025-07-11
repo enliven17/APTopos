@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppProviders } from "@/app/providers";
 import { MainNav } from "@/navigation";
 import ClientOnly from "@/components/ClientOnly";
+import "antd/dist/reset.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>APTopos 🪼</title>
-        <link rel="icon" href="/src/app/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ClientOnly>
