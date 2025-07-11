@@ -2,7 +2,7 @@
     script: typeof document === "object" ? document.currentScript : undefined,
     chunks: [
   "static/chunks/[root-of-the-server]__8ebb6d4b._.css",
-  "static/chunks/node_modules_da700c3b._.js",
+  "static/chunks/node_modules_21ca6aff._.js",
   "static/chunks/node_modules_@aptos-labs_ts-sdk_dist_esm_57deeb0b._.js",
   "static/chunks/8d328_@aptos-labs_ts-sdk_dist_esm_4f834437._.js",
   "static/chunks/1fb61_@aptos-labs_ts-sdk_dist_esm_0cf77907._.js",
@@ -11,15 +11,22 @@
   "static/chunks/node_modules_poseidon-lite_0539761b._.js",
   "static/chunks/node_modules_4688a630._.js",
   "static/chunks/node_modules_aptos_dist_index_mjs_4a40fddd._.js",
-  "static/chunks/node_modules_a135d83d._.js",
+  "static/chunks/node_modules_e27dfe36._.js",
   "static/chunks/node_modules_@aptos-labs_script-composer-pack_dist_esm_main_mjs_4a3d63a4._.js",
   "static/chunks/node_modules_@aptos-labs_script-composer-pack_dist_esm_main_mjs_22544fc3._.js",
   "static/chunks/node_modules_react-icons_fa_index_mjs_d2e2d7f5._.js",
   "static/chunks/node_modules_react-icons_lib_74ccc930._.js",
+  "static/chunks/node_modules_antd_es_f53b5478._.js",
+  "static/chunks/node_modules_@ant-design_cssinjs_es_b92d7f78._.js",
+  "static/chunks/node_modules_rc-menu_es_d0fe5480._.js",
+  "static/chunks/node_modules_rc-field-form_es_4fb5d7cb._.js",
   "static/chunks/node_modules_styled-components_c7cd9eb9._.js",
-  "static/chunks/node_modules_@aptos-connect_d0e5eb7d._.js",
-  "static/chunks/node_modules_b703ca5d._.js",
-  "static/chunks/src_2175d727._.js"
+  "static/chunks/node_modules_@aptos-labs_3299d0aa._.js",
+  "static/chunks/node_modules_@aptos-connect_26ad8b97._.js",
+  "static/chunks/node_modules_@ant-design_b368c042._.js",
+  "static/chunks/node_modules_@rc-component_b3b2c9b4._.js",
+  "static/chunks/node_modules_8cd379b1._.js",
+  "static/chunks/src_1b5eefb3._.js"
 ],
     source: "dynamic"
 });

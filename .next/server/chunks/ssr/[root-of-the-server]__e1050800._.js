@@ -746,7 +746,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$l
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$petra$2d$plugin$2d$wallet$2d$adapter$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/petra-plugin-wallet-adapter/dist/index.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$ts$2d$sdk$2f$dist$2f$esm$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/node_modules/@aptos-labs/ts-sdk/dist/esm/index.mjs [app-ssr] (ecmascript) <module evaluation>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$ts$2d$sdk$2f$dist$2f$esm$2f$chunk$2d$4RXKALLC$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__f__as__Network$3e$__ = __turbopack_context__.i("[project]/node_modules/@aptos-labs/ts-sdk/dist/esm/chunk-4RXKALLC.mjs [app-ssr] (ecmascript) <export f as Network>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$martianwallet$2f$aptos$2d$wallet$2d$adapter$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@martianwallet/aptos-wallet-adapter/dist/index.mjs [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$pontem$2f$wallet$2d$adapter$2d$plugin$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@pontem/wallet-adapter-plugin/dist/index.mjs [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$okwallet$2f$aptos$2d$wallet$2d$adapter$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@okwallet/aptos-wallet-adapter/dist/index.mjs [app-ssr] (ecmascript)");
 "use client";
+;
+;
+;
 ;
 ;
 ;
@@ -762,10 +768,13 @@ function AppProviders({ children }) {
         "TURBOPACK unreachable";
     }
     const wallets = [
-        new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$petra$2d$plugin$2d$wallet$2d$adapter$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PetraWallet"]()
+        new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$petra$2d$plugin$2d$wallet$2d$adapter$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PetraWallet"](),
+        new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$martianwallet$2f$aptos$2d$wallet$2d$adapter$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["MartianWallet"](),
+        new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$pontem$2f$wallet$2d$adapter$2d$plugin$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PontemWallet"](),
+        new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$okwallet$2f$aptos$2d$wallet$2d$adapter$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["OKXWallet"]()
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["AptosWalletAdapterProvider"], {
-        plugins: wallets,
+        wallets: wallets,
         autoConnect: true,
         dappConfig: {
             network: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$ts$2d$sdk$2f$dist$2f$esm$2f$chunk$2d$4RXKALLC$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__f__as__Network$3e$__["Network"].TESTNET
@@ -779,22 +788,22 @@ function AppProviders({ children }) {
                     children: children
                 }, void 0, false, {
                     fileName: "[project]/src/app/providers.tsx",
-                    lineNumber: 26,
+                    lineNumber: 34,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/providers.tsx",
-                lineNumber: 25,
+                lineNumber: 33,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/providers.tsx",
-            lineNumber: 24,
+            lineNumber: 32,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/providers.tsx",
-        lineNumber: 23,
+        lineNumber: 31,
         columnNumber: 5
     }, this);
 }

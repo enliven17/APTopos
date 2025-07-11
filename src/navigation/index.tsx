@@ -2,11 +2,11 @@
 import Link from "next/link";
 import styled from "styled-components";
 import { usePathname } from "next/navigation";
-import { ConnectWalletButton } from "@/components/ConnectWalletButton";
 import { FaSearch, FaBrain } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 
 export function MainNav() {
   const pathname = usePathname();
@@ -46,7 +46,7 @@ export function MainNav() {
           <DefiQValue>{defiQ}</DefiQValue>
         </DefiQBox>
         <WalletBox>
-          <ConnectWalletButton />
+          <WalletSelector />
         </WalletBox>
       </FlexRow>
     </NavBar>

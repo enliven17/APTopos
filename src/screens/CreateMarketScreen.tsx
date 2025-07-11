@@ -6,6 +6,7 @@ import { addMarket } from "@/store/marketsSlice";
 import { Market } from "@/types/market";
 import { v4 as uuidv4 } from "uuid";
 import { FaPlus, FaCalendarAlt, FaCoins, FaInfoCircle, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 export default function CreateMarketScreen() {
   const dispatch = useDispatch();
@@ -17,44 +18,7 @@ export default function CreateMarketScreen() {
   const [initialPool, setInitialPool] = useState(0.5);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
-
-  // Cüzdan bağlantı durumunu takip et
-  useEffect(() => {
-    const checkWalletConnection = () => {
-      if (window.ethereum && window.ethereum.selectedAddress) {
-        setConnectedAddress(window.ethereum.selectedAddress);
-        setIsConnected(true);
-      } else {
-        setConnectedAddress(null);
-        setIsConnected(false);
-      }
-    };
-
-    checkWalletConnection();
-    
-    // Cüzdan değişikliklerini dinle
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', checkWalletConnection);
-      window.ethereum.on('connect', checkWalletConnection);
-      window.ethereum.on('disconnect', () => {
-        setConnectedAddress(null);
-        setIsConnected(false);
-      });
-    }
-
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener('accountsChanged', checkWalletConnection);
-        window.ethereum.removeListener('connect', checkWalletConnection);
-        window.ethereum.removeListener('disconnect', () => {
-          setConnectedAddress(null);
-          setIsConnected(false);
-        });
-      }
-    };
-  }, []);
+  const { account, connected } = useWallet();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +40,7 @@ export default function CreateMarketScreen() {
       setError("Initial pool must be at least 0.1 APT.");
       return;
     }
-    if (!isConnected || !connectedAddress) {
+    if (!connected || !account?.address) {
       setError("Wallet is not connected.");
       return;
     }
@@ -89,7 +53,7 @@ export default function CreateMarketScreen() {
       id: uuidv4(),
       title,
       description,
-      creatorId: connectedAddress,
+      creatorId: account.address.toString(),
       createdAt: Date.now(),
       closesAt: closesAtTimestamp,
       initialPool,
@@ -233,7 +197,7 @@ export default function CreateMarketScreen() {
           </SuccessContainer>
         )}
 
-        <SubmitButton type="submit" disabled={!isConnected}>
+        <SubmitButton type="submit" disabled={!connected}>
           <FaPlus />
           Create Market
         </SubmitButton>

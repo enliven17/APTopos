@@ -8,6 +8,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
 import { PetraWallet } from "petra-plugin-wallet-adapter";
 import { Network } from "@aptos-labs/ts-sdk";
+import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
+import { PontemWallet } from "@pontem/wallet-adapter-plugin";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +19,11 @@ export function AppProviders({ children }: { children: ReactNode }) {
     window.indexedDB = {} as IDBFactory;
   }
 
-  const wallets = [new PetraWallet()];
+  const wallets = [
+    new PetraWallet(),
+    new MartianWallet(),
+    new PontemWallet(),
+  ];
 
   return (
     <AptosWalletAdapterProvider plugins={wallets} autoConnect={true} dappConfig={{ network: Network.TESTNET }}>

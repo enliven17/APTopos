@@ -13,11 +13,18 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$components$2f$dist$2f$styled$2d$components$2e$browser$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-components/dist/styled-components.browser.esm.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-redux/dist/react-redux.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$store$2f$marketsSlice$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/store/marketsSlice.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$uuid$2f$dist$2f$esm$2d$browser$2f$v4$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__v4$3e$__ = __turbopack_context__.i("[project]/node_modules/uuid/dist/esm-browser/v4.js [app-client] (ecmascript) <export default as v4>");
+(()=>{
+    const e = new Error("Cannot find module 'uuid'");
+    e.code = 'MODULE_NOT_FOUND';
+    throw e;
+})();
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$module__evaluation$3e$__ = __turbopack_context__.i("[project]/node_modules/@aptos-labs/wallet-adapter-react/dist/index.mjs [app-client] (ecmascript) <module evaluation>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/@aptos-labs/wallet-adapter-react/dist/index.mjs [app-client] (ecmascript) <locals>");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -35,50 +42,7 @@ function CreateMarketScreen() {
     const [initialPool, setInitialPool] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0.5);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [success, setSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
-    const [connectedAddress, setConnectedAddress] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [isConnected, setIsConnected] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    // Cüzdan bağlantı durumunu takip et
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "CreateMarketScreen.useEffect": ()=>{
-            const checkWalletConnection = {
-                "CreateMarketScreen.useEffect.checkWalletConnection": ()=>{
-                    if (window.ethereum && window.ethereum.selectedAddress) {
-                        setConnectedAddress(window.ethereum.selectedAddress);
-                        setIsConnected(true);
-                    } else {
-                        setConnectedAddress(null);
-                        setIsConnected(false);
-                    }
-                }
-            }["CreateMarketScreen.useEffect.checkWalletConnection"];
-            checkWalletConnection();
-            // Cüzdan değişikliklerini dinle
-            if (window.ethereum) {
-                window.ethereum.on('accountsChanged', checkWalletConnection);
-                window.ethereum.on('connect', checkWalletConnection);
-                window.ethereum.on('disconnect', {
-                    "CreateMarketScreen.useEffect": ()=>{
-                        setConnectedAddress(null);
-                        setIsConnected(false);
-                    }
-                }["CreateMarketScreen.useEffect"]);
-            }
-            return ({
-                "CreateMarketScreen.useEffect": ()=>{
-                    if (window.ethereum) {
-                        window.ethereum.removeListener('accountsChanged', checkWalletConnection);
-                        window.ethereum.removeListener('connect', checkWalletConnection);
-                        window.ethereum.removeListener('disconnect', {
-                            "CreateMarketScreen.useEffect": ()=>{
-                                setConnectedAddress(null);
-                                setIsConnected(false);
-                            }
-                        }["CreateMarketScreen.useEffect"]);
-                    }
-                }
-            })["CreateMarketScreen.useEffect"];
-        }
-    }["CreateMarketScreen.useEffect"], []);
+    const { account, connected } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useWallet"])();
     const handleSubmit = (e)=>{
         e.preventDefault();
         setError("");
@@ -99,7 +63,7 @@ function CreateMarketScreen() {
             setError("Initial pool must be at least 0.1 APT.");
             return;
         }
-        if (!isConnected || !connectedAddress) {
+        if (!connected || !account?.address) {
             setError("Wallet is not connected.");
             return;
         }
@@ -109,10 +73,10 @@ function CreateMarketScreen() {
             return;
         }
         const newMarket = {
-            id: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$uuid$2f$dist$2f$esm$2d$browser$2f$v4$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__v4$3e$__["v4"])(),
+            id: uuidv4(),
             title,
             description,
-            creatorId: connectedAddress,
+            creatorId: account.address.toString(),
             createdAt: Date.now(),
             closesAt: closesAtTimestamp,
             initialPool,
@@ -137,12 +101,12 @@ function CreateMarketScreen() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(HeaderIcon, {
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaPlus"], {}, void 0, false, {
                             fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                            lineNumber: 115,
+                            lineNumber: 79,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 114,
+                        lineNumber: 78,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(HeaderContent, {
@@ -151,26 +115,26 @@ function CreateMarketScreen() {
                                 children: "Create New Market"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 118,
+                                lineNumber: 82,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Subtitle, {
                                 children: "Start a new prediction market and let users bet on outcomes"
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 119,
+                                lineNumber: 83,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 117,
+                        lineNumber: 81,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                lineNumber: 113,
+                lineNumber: 77,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Form, {
@@ -182,14 +146,14 @@ function CreateMarketScreen() {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaInfoCircle"], {}, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 126,
+                                        lineNumber: 90,
                                         columnNumber: 13
                                     }, this),
                                     "Market Information"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 125,
+                                lineNumber: 89,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormGroup, {
@@ -198,7 +162,7 @@ function CreateMarketScreen() {
                                         children: "Market Title"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 131,
+                                        lineNumber: 95,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Input, {
@@ -208,13 +172,13 @@ function CreateMarketScreen() {
                                         required: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 132,
+                                        lineNumber: 96,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 130,
+                                lineNumber: 94,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormGroup, {
@@ -223,7 +187,7 @@ function CreateMarketScreen() {
                                         children: "Description"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 141,
+                                        lineNumber: 105,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(TextArea, {
@@ -233,19 +197,19 @@ function CreateMarketScreen() {
                                         required: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 142,
+                                        lineNumber: 106,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 140,
+                                lineNumber: 104,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 124,
+                        lineNumber: 88,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormSection, {
@@ -254,14 +218,14 @@ function CreateMarketScreen() {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCalendarAlt"], {}, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 153,
+                                        lineNumber: 117,
                                         columnNumber: 13
                                     }, this),
                                     "Market Settings"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 152,
+                                lineNumber: 116,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormGroup, {
@@ -270,7 +234,7 @@ function CreateMarketScreen() {
                                         children: "Closing Time"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 158,
+                                        lineNumber: 122,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Input, {
@@ -280,20 +244,20 @@ function CreateMarketScreen() {
                                         required: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 123,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpText, {
                                         children: "Market will close at this time and no more bets will be accepted"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 165,
+                                        lineNumber: 129,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 157,
+                                lineNumber: 121,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetLimitsRow, {
@@ -304,7 +268,7 @@ function CreateMarketScreen() {
                                                 children: "Minimum Bet (APT)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                                lineNumber: 170,
+                                                lineNumber: 134,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Input, {
@@ -316,13 +280,13 @@ function CreateMarketScreen() {
                                                 required: true
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                                lineNumber: 171,
+                                                lineNumber: 135,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 169,
+                                        lineNumber: 133,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormGroup, {
@@ -331,7 +295,7 @@ function CreateMarketScreen() {
                                                 children: "Maximum Bet (APT)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                                lineNumber: 182,
+                                                lineNumber: 146,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Input, {
@@ -343,32 +307,32 @@ function CreateMarketScreen() {
                                                 required: true
                                             }, void 0, false, {
                                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                                lineNumber: 183,
+                                                lineNumber: 147,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 181,
+                                        lineNumber: 145,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 168,
+                                lineNumber: 132,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(BetLimitsInfo, {
                                 children: "Minimum bet must be at least 0.001 APT and maximum bet cannot exceed 5 APT. The values you select must be within this range."
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 193,
+                                lineNumber: 157,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 151,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormSection, {
@@ -377,14 +341,14 @@ function CreateMarketScreen() {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCoins"], {}, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 200,
+                                        lineNumber: 164,
                                         columnNumber: 13
                                     }, this),
                                     "Pool Configuration"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 199,
+                                lineNumber: 163,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormGroup, {
@@ -393,7 +357,7 @@ function CreateMarketScreen() {
                                         children: "Initial Pool (APT)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 205,
+                                        lineNumber: 169,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Input, {
@@ -405,26 +369,26 @@ function CreateMarketScreen() {
                                         required: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 206,
+                                        lineNumber: 170,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(HelpText, {
                                         children: "Starting amount in the betting pool"
                                     }, void 0, false, {
                                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                        lineNumber: 214,
+                                        lineNumber: 178,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 204,
+                                lineNumber: 168,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 198,
+                        lineNumber: 162,
                         columnNumber: 9
                     }, this),
                     error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ErrorContainer, {
@@ -432,25 +396,25 @@ function CreateMarketScreen() {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ErrorIcon, {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaExclamationTriangle"], {}, void 0, false, {
                                     fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 185,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 220,
+                                lineNumber: 184,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ErrorText, {
                                 children: error
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 223,
+                                lineNumber: 187,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 219,
+                        lineNumber: 183,
                         columnNumber: 11
                     }, this),
                     success && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SuccessContainer, {
@@ -458,66 +422,67 @@ function CreateMarketScreen() {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SuccessIcon, {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaCheckCircle"], {}, void 0, false, {
                                     fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                    lineNumber: 230,
+                                    lineNumber: 194,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 229,
+                                lineNumber: 193,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SuccessText, {
                                 children: success
                             }, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 232,
+                                lineNumber: 196,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 228,
+                        lineNumber: 192,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SubmitButton, {
                         type: "submit",
-                        disabled: !isConnected,
+                        disabled: !connected,
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaPlus"], {}, void 0, false, {
                                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                                lineNumber: 237,
+                                lineNumber: 201,
                                 columnNumber: 11
                             }, this),
                             "Create Market"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 236,
+                        lineNumber: 200,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(InfoBox, {
                         children: "Newly created markets must first be approved before going live. If your market is not approved, the APT you provided for the pool will be refunded to your wallet."
                     }, void 0, false, {
                         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                        lineNumber: 240,
+                        lineNumber: 204,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-                lineNumber: 123,
+                lineNumber: 87,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/screens/CreateMarketScreen.tsx",
-        lineNumber: 112,
+        lineNumber: 76,
         columnNumber: 5
     }, this);
 }
-_s(CreateMarketScreen, "1mrQxVGhKZgdLHIMXSsTc0ZbJ/c=", false, function() {
+_s(CreateMarketScreen, "j7Itd3snrGO9CUR9vekVmLw6M+U=", false, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDispatch"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDispatch"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useWallet"]
     ];
 });
 _c = CreateMarketScreen;

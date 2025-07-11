@@ -8,6 +8,7 @@ import { Market, BetSide } from "@/types/market";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { FaCoins, FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaClock, FaTrophy, FaUser, FaUserCircle } from 'react-icons/fa';
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 const PieChartWrapper = styled.div`
   display: flex;
@@ -63,47 +64,10 @@ export default function MarketDetailScreen() {
   const [side, setSide] = useState<BetSide>("yes");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
+  const { account, connected } = useWallet();
   
-  // Cüzdan bağlantı durumunu takip et
-  useEffect(() => {
-    const checkWalletConnection = () => {
-      if (window.ethereum && window.ethereum.selectedAddress) {
-        setConnectedAddress(window.ethereum.selectedAddress);
-        setIsConnected(true);
-      } else {
-        setConnectedAddress(null);
-        setIsConnected(false);
-      }
-    };
-
-    checkWalletConnection();
-    
-    // Cüzdan değişikliklerini dinle
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', checkWalletConnection);
-      window.ethereum.on('connect', checkWalletConnection);
-      window.ethereum.on('disconnect', () => {
-        setConnectedAddress(null);
-        setIsConnected(false);
-      });
-    }
-
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener('accountsChanged', checkWalletConnection);
-        window.ethereum.removeListener('connect', checkWalletConnection);
-        window.ethereum.removeListener('disconnect', () => {
-          setConnectedAddress(null);
-          setIsConnected(false);
-        });
-      }
-    };
-  }, []);
-
   const rewards = useSelector((state: RootState) => state.markets.claimableRewards);
-  const myReward = rewards.find(r => r.userId === connectedAddress && r.marketId === market?.id);
+  const myReward = rewards.find(r => r.userId === account?.address?.toString() && r.marketId === market?.id);
   const [comments, setComments] = useState([
     { id: 1, user: "Alice", text: "I think this market is very interesting!", date: "2024-07-06 20:00" },
     { id: 2, user: "Bob", text: "My bet is on YES 🚀", date: "2024-07-06 20:10" },
@@ -131,13 +95,13 @@ export default function MarketDetailScreen() {
       setError(`Bet amount must be between ${market.minBet} - ${market.maxBet} APT.`);
       return;
     }
-    if (!isConnected || !connectedAddress) {
+    if (!connected || !account?.address) {
       setError("Wallet is not connected.");
       return;
     }
     dispatch(addBet({
       id: uuidv4(),
-      userId: connectedAddress,
+      userId: account.address.toString(),
       marketId: market.id,
       amount: betAmount,
       side,
@@ -152,8 +116,8 @@ export default function MarketDetailScreen() {
   };
 
   const handleClaim = () => {
-    if (connectedAddress) {
-      dispatch(claimReward({ userId: connectedAddress, marketId: market.id }));
+    if (account?.address) {
+      dispatch(claimReward({ userId: account.address.toString(), marketId: market.id }));
     }
   };
 
