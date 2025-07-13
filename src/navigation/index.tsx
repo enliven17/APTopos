@@ -15,17 +15,29 @@ export function MainNav() {
   const { account, connect, wallets } = useWallet();
   const connectedAddress = account?.address?.toString();
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [defiQ, setDefiQ] = React.useState(0);
 
-  const defiQ = useSelector((state: RootState) => {
-    if (!connectedAddress) return 0;
-    const reduxScore = state.markets.userDefiQ[connectedAddress];
-    if (reduxScore !== undefined) return reduxScore;
+  // useSelector must be at the top level, not inside useEffect!
+  const reduxScore = useSelector((state: RootState) =>
+    connectedAddress ? state.markets.userDefiQ[connectedAddress] : undefined
+  );
+
+  React.useEffect(() => {
+    if (!connectedAddress) {
+      setDefiQ(0);
+      return;
+    }
+    if (reduxScore !== undefined) {
+      setDefiQ(reduxScore);
+      return;
+    }
     if (typeof window !== 'undefined') {
       const localScore = localStorage.getItem(`defiq_${connectedAddress}`);
-      if (localScore) return Number(localScore);
+      setDefiQ(localScore ? Number(localScore) : 0);
+    } else {
+      setDefiQ(0);
     }
-    return 0;
-  });
+  }, [connectedAddress, reduxScore]);
 
   const handleConnect = async (walletName: string) => {
     const wallet = wallets.find(w => w.name.toLowerCase().includes(walletName.toLowerCase()));

@@ -2,24 +2,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Market, Bet, MarketStatus, BetSide } from "@/types/market";
 
 // Dummy data: Demo amaçlı açılmış marketler ve bahisler
+const NOW = 1720000000000;
 const initialMarkets: Market[] = [
   {
     id: "1",
     title: "Will aliens make first contact in 2025?",
     description: "Will humanity receive confirmed first contact from extraterrestrial intelligence in 2025?",
     creatorId: "user1",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 2,
+    createdAt: NOW - 1000 * 60 * 60 * 24,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 2,
     initialPool: 1,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b1", userId: "user2", marketId: "1", amount: 0.5, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 },
-      { id: "b2", userId: "user3", marketId: "1", amount: 0.2, side: "no", timestamp: Date.now() - 1000 * 60 * 30 },
-      { id: "b3", userId: "user4", marketId: "1", amount: 0.8, side: "yes", timestamp: Date.now() - 1000 * 60 * 90 },
-      { id: "b4", userId: "user5", marketId: "1", amount: 0.3, side: "no", timestamp: Date.now() - 1000 * 60 * 120 },
-      { id: "b5", userId: "user6", marketId: "1", amount: 0.6, side: "yes", timestamp: Date.now() - 1000 * 60 * 180 }
+      { id: "b1", userId: "user2", marketId: "1", amount: 0.5, side: "yes", timestamp: NOW - 1000 * 60 * 60 },
+      { id: "b2", userId: "user3", marketId: "1", amount: 0.2, side: "no", timestamp: NOW - 1000 * 60 * 60 * 30 },
+      { id: "b3", userId: "user4", marketId: "1", amount: 0.8, side: "yes", timestamp: NOW - 1000 * 60 * 90 },
+      { id: "b4", userId: "user5", marketId: "1", amount: 0.3, side: "no", timestamp: NOW - 1000 * 60 * 120 },
+      { id: "b5", userId: "user6", marketId: "1", amount: 0.6, side: "yes", timestamp: NOW - 1000 * 60 * 180 }
     ]
   },
   {
@@ -27,16 +28,16 @@ const initialMarkets: Market[] = [
     title: "Will someone break the 2-hour marathon barrier in 2025?",
     description: "Will any runner officially break the 2-hour marathon barrier in an official race in 2025?",
     creatorId: "user2",
-    createdAt: Date.now() - 1000 * 60 * 60 * 48,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 5,
+    createdAt: NOW - 1000 * 60 * 60 * 48,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 5,
     initialPool: 0.5,
     minBet: 0.01,
     maxBet: 1,
     status: "open",
     bets: [
-      { id: "b6", userId: "user1", marketId: "2", amount: 0.1, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 2 },
-      { id: "b7", userId: "user3", marketId: "2", amount: 0.3, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 3 },
-      { id: "b8", userId: "user5", marketId: "2", amount: 0.2, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 4 }
+      { id: "b6", userId: "user1", marketId: "2", amount: 0.1, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 2 },
+      { id: "b7", userId: "user3", marketId: "2", amount: 0.3, side: "no", timestamp: NOW - 1000 * 60 * 60 * 3 },
+      { id: "b8", userId: "user5", marketId: "2", amount: 0.2, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 4 }
     ]
   },
   {
@@ -44,16 +45,16 @@ const initialMarkets: Market[] = [
     title: "Will a cat become the first pet to speak human language?",
     description: "Will any cat demonstrate the ability to speak human words clearly and meaningfully by 2030?",
     creatorId: "user3",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 3,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 60,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 3,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 60,
     initialPool: 0.8,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b9", userId: "user2", marketId: "3", amount: 0.4, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 5 },
-      { id: "b10", userId: "user4", marketId: "3", amount: 0.2, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 6 },
-      { id: "b11", userId: "user5", marketId: "3", amount: 0.5, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 7 }
+      { id: "b9", userId: "user2", marketId: "3", amount: 0.4, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 5 },
+      { id: "b10", userId: "user4", marketId: "3", amount: 0.2, side: "no", timestamp: NOW - 1000 * 60 * 60 * 6 },
+      { id: "b11", userId: "user5", marketId: "3", amount: 0.5, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 7 }
     ]
   },
   {
@@ -61,15 +62,15 @@ const initialMarkets: Market[] = [
     title: "Will time travel be discovered by 2050?",
     description: "Will scientists discover a method for actual time travel (not just theoretical) by 2050?",
     creatorId: "user4",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 4,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 90,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 4,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 90,
     initialPool: 0.4,
     minBet: 0.01,
     maxBet: 1,
     status: "open",
     bets: [
-      { id: "b12", userId: "user1", marketId: "4", amount: 0.1, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 8 },
-      { id: "b13", userId: "user3", marketId: "4", amount: 0.2, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 9 }
+      { id: "b12", userId: "user1", marketId: "4", amount: 0.1, side: "no", timestamp: NOW - 1000 * 60 * 60 * 8 },
+      { id: "b13", userId: "user3", marketId: "4", amount: 0.2, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 9 }
     ]
   },
   {
@@ -77,16 +78,16 @@ const initialMarkets: Market[] = [
     title: "Will humans live on the Moon by 2040?",
     description: "Will there be a permanent human settlement on the Moon with people living there continuously by 2040?",
     creatorId: "user5",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 5,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 120,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 5,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 120,
     initialPool: 0.7,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b14", userId: "user2", marketId: "5", amount: 0.3, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 10 },
-      { id: "b15", userId: "user6", marketId: "5", amount: 0.2, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 11 },
-      { id: "b16", userId: "user7", marketId: "5", amount: 0.4, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 12 }
+      { id: "b14", userId: "user2", marketId: "5", amount: 0.3, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 10 },
+      { id: "b15", userId: "user6", marketId: "5", amount: 0.2, side: "no", timestamp: NOW - 1000 * 60 * 60 * 11 },
+      { id: "b16", userId: "user7", marketId: "5", amount: 0.4, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 12 }
     ]
   },
   {
@@ -94,15 +95,15 @@ const initialMarkets: Market[] = [
     title: "Will telepathy become a real technology by 2060?",
     description: "Will brain-to-brain communication technology be developed and widely available by 2060?",
     creatorId: "user6",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 6,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 365,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 6,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 365,
     initialPool: 0.9,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b17", userId: "user1", marketId: "6", amount: 0.2, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 13 },
-      { id: "b18", userId: "user4", marketId: "6", amount: 0.3, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 14 }
+      { id: "b17", userId: "user1", marketId: "6", amount: 0.2, side: "no", timestamp: NOW - 1000 * 60 * 60 * 13 },
+      { id: "b18", userId: "user4", marketId: "6", amount: 0.3, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 14 }
     ]
   },
   {
@@ -110,15 +111,15 @@ const initialMarkets: Market[] = [
     title: "Will dinosaurs be cloned by 2070?",
     description: "Will scientists successfully clone a dinosaur using preserved DNA by 2070?",
     creatorId: "user7",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 200,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 7,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 200,
     initialPool: 0.6,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b19", userId: "user2", marketId: "7", amount: 0.5, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 15 },
-      { id: "b20", userId: "user5", marketId: "7", amount: 0.2, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 16 }
+      { id: "b19", userId: "user2", marketId: "7", amount: 0.5, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 15 },
+      { id: "b20", userId: "user5", marketId: "7", amount: 0.2, side: "no", timestamp: NOW - 1000 * 60 * 60 * 16 }
     ]
   },
   {
@@ -126,15 +127,15 @@ const initialMarkets: Market[] = [
     title: "Will humans achieve immortality by 2100?",
     description: "Will medical technology advance enough to make humans biologically immortal by 2100?",
     creatorId: "user8",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 8,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 400,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 8,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 400,
     initialPool: 0.5,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b21", userId: "user3", marketId: "8", amount: 0.3, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 17 },
-      { id: "b22", userId: "user6", marketId: "8", amount: 0.4, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 18 }
+      { id: "b21", userId: "user3", marketId: "8", amount: 0.3, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 17 },
+      { id: "b22", userId: "user6", marketId: "8", amount: 0.4, side: "no", timestamp: NOW - 1000 * 60 * 60 * 18 }
     ]
   },
   {
@@ -142,15 +143,15 @@ const initialMarkets: Market[] = [
     title: "Will a robot win a Nobel Prize by 2050?",
     description: "Will an AI system or robot be awarded a Nobel Prize for scientific discovery by 2050?",
     creatorId: "user9",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 9,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 300,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 9,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 300,
     initialPool: 0.8,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b23", userId: "user1", marketId: "9", amount: 0.4, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 19 },
-      { id: "b24", userId: "user4", marketId: "9", amount: 0.3, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 20 }
+      { id: "b23", userId: "user1", marketId: "9", amount: 0.4, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 19 },
+      { id: "b24", userId: "user4", marketId: "9", amount: 0.3, side: "no", timestamp: NOW - 1000 * 60 * 60 * 20 }
     ]
   },
   {
@@ -158,15 +159,15 @@ const initialMarkets: Market[] = [
     title: "Will we discover life on Venus by 2035?",
     description: "Will scientists confirm the discovery of life (microbial or otherwise) on Venus by 2035?",
     creatorId: "user10",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 10,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 180,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 10,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 180,
     initialPool: 0.6,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b25", userId: "user2", marketId: "10", amount: 0.2, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 21 },
-      { id: "b26", userId: "user7", marketId: "10", amount: 0.5, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 22 }
+      { id: "b25", userId: "user2", marketId: "10", amount: 0.2, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 21 },
+      { id: "b26", userId: "user7", marketId: "10", amount: 0.5, side: "no", timestamp: NOW - 1000 * 60 * 60 * 22 }
     ]
   },
   {
@@ -174,15 +175,15 @@ const initialMarkets: Market[] = [
     title: "Will flying cars be common by 2045?",
     description: "Will personal flying vehicles be a common mode of transportation in major cities by 2045?",
     creatorId: "user11",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 11,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 250,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 11,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 250,
     initialPool: 0.7,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b27", userId: "user3", marketId: "11", amount: 0.3, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 23 },
-      { id: "b28", userId: "user5", marketId: "11", amount: 0.4, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 24 }
+      { id: "b27", userId: "user3", marketId: "11", amount: 0.3, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 23 },
+      { id: "b28", userId: "user5", marketId: "11", amount: 0.4, side: "no", timestamp: NOW - 1000 * 60 * 60 * 24 }
     ]
   },
   {
@@ -190,15 +191,15 @@ const initialMarkets: Market[] = [
     title: "Will dreams be recorded and shared by 2080?",
     description: "Will technology exist to record, visualize, and share human dreams by 2080?",
     creatorId: "user12",
-    createdAt: Date.now() - 1000 * 60 * 60 * 24 * 12,
-    closesAt: Date.now() + 1000 * 60 * 60 * 24 * 500,
+    createdAt: NOW - 1000 * 60 * 60 * 24 * 12,
+    closesAt: NOW + 1000 * 60 * 60 * 24 * 500,
     initialPool: 0.5,
     minBet: 0.01,
     maxBet: 2,
     status: "open",
     bets: [
-      { id: "b29", userId: "user1", marketId: "12", amount: 0.2, side: "yes", timestamp: Date.now() - 1000 * 60 * 60 * 25 },
-      { id: "b30", userId: "user6", marketId: "12", amount: 0.3, side: "no", timestamp: Date.now() - 1000 * 60 * 60 * 26 }
+      { id: "b29", userId: "user1", marketId: "12", amount: 0.2, side: "yes", timestamp: NOW - 1000 * 60 * 60 * 25 },
+      { id: "b30", userId: "user6", marketId: "12", amount: 0.3, side: "no", timestamp: NOW - 1000 * 60 * 60 * 26 }
     ]
   }
 ];

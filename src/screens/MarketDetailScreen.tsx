@@ -84,7 +84,12 @@ export default function MarketDetailScreen() {
   const totalNo = market.bets.filter(b => b.side === "no").reduce((sum, b) => sum + b.amount, 0);
   const totalPool = market.initialPool + market.bets.reduce((sum, b) => sum + b.amount, 0);
   const totalBets = market.bets.length;
-  const timeLeft = market.closesAt - Date.now();
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+  const timeLeft = market.closesAt - now;
 
   const handleBet = (e: React.FormEvent) => {
     e.preventDefault();

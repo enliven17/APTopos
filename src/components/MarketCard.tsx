@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Market } from "@/types/market";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaClock, FaCheckCircle, FaTimesCircle, FaCoins, FaUsers, FaCalendarAlt } from 'react-icons/fa';
 
 interface Props {
@@ -16,6 +16,12 @@ export function MarketCard({ market }: Props) {
   const [modal, setModal] = useState<null | "yes" | "no">(null);
   const [amount, setAmount] = useState(MIN_BET);
   const [error, setError] = useState("");
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleBuy = (side: "yes" | "no") => setModal(side);
   const closeModal = () => setModal(null);
@@ -66,7 +72,7 @@ export function MarketCard({ market }: Props) {
 
   const totalPool = market.initialPool + market.bets.reduce((sum, b) => sum + b.amount, 0);
   const totalBets = market.bets.length;
-  const timeLeft = market.closesAt - Date.now();
+  const timeLeft = market.closesAt - now;
   const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
 
   return (

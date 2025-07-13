@@ -16,14 +16,15 @@ __turbopack_context__.s({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$reduxjs$2f$toolkit$2f$dist$2f$redux$2d$toolkit$2e$modern$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs [app-client] (ecmascript) <locals>");
 ;
 // Dummy data: Demo amaçlı açılmış marketler ve bahisler
+const NOW = 1720000000000;
 const initialMarkets = [
     {
         id: "1",
         title: "Will aliens make first contact in 2025?",
         description: "Will humanity receive confirmed first contact from extraterrestrial intelligence in 2025?",
         creatorId: "user1",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 2,
+        createdAt: NOW - 1000 * 60 * 60 * 24,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 2,
         initialPool: 1,
         minBet: 0.01,
         maxBet: 2,
@@ -35,7 +36,7 @@ const initialMarkets = [
                 marketId: "1",
                 amount: 0.5,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60
+                timestamp: NOW - 1000 * 60 * 60
             },
             {
                 id: "b2",
@@ -43,7 +44,7 @@ const initialMarkets = [
                 marketId: "1",
                 amount: 0.2,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 30
+                timestamp: NOW - 1000 * 60 * 60 * 30
             },
             {
                 id: "b3",
@@ -51,7 +52,7 @@ const initialMarkets = [
                 marketId: "1",
                 amount: 0.8,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 90
+                timestamp: NOW - 1000 * 60 * 90
             },
             {
                 id: "b4",
@@ -59,7 +60,7 @@ const initialMarkets = [
                 marketId: "1",
                 amount: 0.3,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 120
+                timestamp: NOW - 1000 * 60 * 120
             },
             {
                 id: "b5",
@@ -67,7 +68,7 @@ const initialMarkets = [
                 marketId: "1",
                 amount: 0.6,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 180
+                timestamp: NOW - 1000 * 60 * 180
             }
         ]
     },
@@ -76,8 +77,8 @@ const initialMarkets = [
         title: "Will someone break the 2-hour marathon barrier in 2025?",
         description: "Will any runner officially break the 2-hour marathon barrier in an official race in 2025?",
         creatorId: "user2",
-        createdAt: Date.now() - 1000 * 60 * 60 * 48,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 5,
+        createdAt: NOW - 1000 * 60 * 60 * 48,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 5,
         initialPool: 0.5,
         minBet: 0.01,
         maxBet: 1,
@@ -89,7 +90,7 @@ const initialMarkets = [
                 marketId: "2",
                 amount: 0.1,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 2
+                timestamp: NOW - 1000 * 60 * 60 * 2
             },
             {
                 id: "b7",
@@ -97,7 +98,7 @@ const initialMarkets = [
                 marketId: "2",
                 amount: 0.3,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 3
+                timestamp: NOW - 1000 * 60 * 60 * 3
             },
             {
                 id: "b8",
@@ -105,7 +106,7 @@ const initialMarkets = [
                 marketId: "2",
                 amount: 0.2,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 4
+                timestamp: NOW - 1000 * 60 * 60 * 4
             }
         ]
     },
@@ -114,8 +115,8 @@ const initialMarkets = [
         title: "Will a cat become the first pet to speak human language?",
         description: "Will any cat demonstrate the ability to speak human words clearly and meaningfully by 2030?",
         creatorId: "user3",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 3,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 60,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 3,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 60,
         initialPool: 0.8,
         minBet: 0.01,
         maxBet: 2,
@@ -127,7 +128,7 @@ const initialMarkets = [
                 marketId: "3",
                 amount: 0.4,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 5
+                timestamp: NOW - 1000 * 60 * 60 * 5
             },
             {
                 id: "b10",
@@ -135,7 +136,7 @@ const initialMarkets = [
                 marketId: "3",
                 amount: 0.2,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 6
+                timestamp: NOW - 1000 * 60 * 60 * 6
             },
             {
                 id: "b11",
@@ -143,7 +144,7 @@ const initialMarkets = [
                 marketId: "3",
                 amount: 0.5,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 7
+                timestamp: NOW - 1000 * 60 * 60 * 7
             }
         ]
     },
@@ -152,8 +153,8 @@ const initialMarkets = [
         title: "Will time travel be discovered by 2050?",
         description: "Will scientists discover a method for actual time travel (not just theoretical) by 2050?",
         creatorId: "user4",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 4,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 90,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 4,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 90,
         initialPool: 0.4,
         minBet: 0.01,
         maxBet: 1,
@@ -165,7 +166,7 @@ const initialMarkets = [
                 marketId: "4",
                 amount: 0.1,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 8
+                timestamp: NOW - 1000 * 60 * 60 * 8
             },
             {
                 id: "b13",
@@ -173,7 +174,7 @@ const initialMarkets = [
                 marketId: "4",
                 amount: 0.2,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 9
+                timestamp: NOW - 1000 * 60 * 60 * 9
             }
         ]
     },
@@ -182,8 +183,8 @@ const initialMarkets = [
         title: "Will humans live on the Moon by 2040?",
         description: "Will there be a permanent human settlement on the Moon with people living there continuously by 2040?",
         creatorId: "user5",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 5,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 120,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 5,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 120,
         initialPool: 0.7,
         minBet: 0.01,
         maxBet: 2,
@@ -195,7 +196,7 @@ const initialMarkets = [
                 marketId: "5",
                 amount: 0.3,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 10
+                timestamp: NOW - 1000 * 60 * 60 * 10
             },
             {
                 id: "b15",
@@ -203,7 +204,7 @@ const initialMarkets = [
                 marketId: "5",
                 amount: 0.2,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 11
+                timestamp: NOW - 1000 * 60 * 60 * 11
             },
             {
                 id: "b16",
@@ -211,7 +212,7 @@ const initialMarkets = [
                 marketId: "5",
                 amount: 0.4,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 12
+                timestamp: NOW - 1000 * 60 * 60 * 12
             }
         ]
     },
@@ -220,8 +221,8 @@ const initialMarkets = [
         title: "Will telepathy become a real technology by 2060?",
         description: "Will brain-to-brain communication technology be developed and widely available by 2060?",
         creatorId: "user6",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 6,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 365,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 6,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 365,
         initialPool: 0.9,
         minBet: 0.01,
         maxBet: 2,
@@ -233,7 +234,7 @@ const initialMarkets = [
                 marketId: "6",
                 amount: 0.2,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 13
+                timestamp: NOW - 1000 * 60 * 60 * 13
             },
             {
                 id: "b18",
@@ -241,7 +242,7 @@ const initialMarkets = [
                 marketId: "6",
                 amount: 0.3,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 14
+                timestamp: NOW - 1000 * 60 * 60 * 14
             }
         ]
     },
@@ -250,8 +251,8 @@ const initialMarkets = [
         title: "Will dinosaurs be cloned by 2070?",
         description: "Will scientists successfully clone a dinosaur using preserved DNA by 2070?",
         creatorId: "user7",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 7,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 200,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 7,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 200,
         initialPool: 0.6,
         minBet: 0.01,
         maxBet: 2,
@@ -263,7 +264,7 @@ const initialMarkets = [
                 marketId: "7",
                 amount: 0.5,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 15
+                timestamp: NOW - 1000 * 60 * 60 * 15
             },
             {
                 id: "b20",
@@ -271,7 +272,7 @@ const initialMarkets = [
                 marketId: "7",
                 amount: 0.2,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 16
+                timestamp: NOW - 1000 * 60 * 60 * 16
             }
         ]
     },
@@ -280,8 +281,8 @@ const initialMarkets = [
         title: "Will humans achieve immortality by 2100?",
         description: "Will medical technology advance enough to make humans biologically immortal by 2100?",
         creatorId: "user8",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 8,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 400,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 8,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 400,
         initialPool: 0.5,
         minBet: 0.01,
         maxBet: 2,
@@ -293,7 +294,7 @@ const initialMarkets = [
                 marketId: "8",
                 amount: 0.3,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 17
+                timestamp: NOW - 1000 * 60 * 60 * 17
             },
             {
                 id: "b22",
@@ -301,7 +302,7 @@ const initialMarkets = [
                 marketId: "8",
                 amount: 0.4,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 18
+                timestamp: NOW - 1000 * 60 * 60 * 18
             }
         ]
     },
@@ -310,8 +311,8 @@ const initialMarkets = [
         title: "Will a robot win a Nobel Prize by 2050?",
         description: "Will an AI system or robot be awarded a Nobel Prize for scientific discovery by 2050?",
         creatorId: "user9",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 9,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 300,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 9,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 300,
         initialPool: 0.8,
         minBet: 0.01,
         maxBet: 2,
@@ -323,7 +324,7 @@ const initialMarkets = [
                 marketId: "9",
                 amount: 0.4,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 19
+                timestamp: NOW - 1000 * 60 * 60 * 19
             },
             {
                 id: "b24",
@@ -331,7 +332,7 @@ const initialMarkets = [
                 marketId: "9",
                 amount: 0.3,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 20
+                timestamp: NOW - 1000 * 60 * 60 * 20
             }
         ]
     },
@@ -340,8 +341,8 @@ const initialMarkets = [
         title: "Will we discover life on Venus by 2035?",
         description: "Will scientists confirm the discovery of life (microbial or otherwise) on Venus by 2035?",
         creatorId: "user10",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 10,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 180,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 10,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 180,
         initialPool: 0.6,
         minBet: 0.01,
         maxBet: 2,
@@ -353,7 +354,7 @@ const initialMarkets = [
                 marketId: "10",
                 amount: 0.2,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 21
+                timestamp: NOW - 1000 * 60 * 60 * 21
             },
             {
                 id: "b26",
@@ -361,7 +362,7 @@ const initialMarkets = [
                 marketId: "10",
                 amount: 0.5,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 22
+                timestamp: NOW - 1000 * 60 * 60 * 22
             }
         ]
     },
@@ -370,8 +371,8 @@ const initialMarkets = [
         title: "Will flying cars be common by 2045?",
         description: "Will personal flying vehicles be a common mode of transportation in major cities by 2045?",
         creatorId: "user11",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 11,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 250,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 11,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 250,
         initialPool: 0.7,
         minBet: 0.01,
         maxBet: 2,
@@ -383,7 +384,7 @@ const initialMarkets = [
                 marketId: "11",
                 amount: 0.3,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 23
+                timestamp: NOW - 1000 * 60 * 60 * 23
             },
             {
                 id: "b28",
@@ -391,7 +392,7 @@ const initialMarkets = [
                 marketId: "11",
                 amount: 0.4,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 24
+                timestamp: NOW - 1000 * 60 * 60 * 24
             }
         ]
     },
@@ -400,8 +401,8 @@ const initialMarkets = [
         title: "Will dreams be recorded and shared by 2080?",
         description: "Will technology exist to record, visualize, and share human dreams by 2080?",
         creatorId: "user12",
-        createdAt: Date.now() - 1000 * 60 * 60 * 24 * 12,
-        closesAt: Date.now() + 1000 * 60 * 60 * 24 * 500,
+        createdAt: NOW - 1000 * 60 * 60 * 24 * 12,
+        closesAt: NOW + 1000 * 60 * 60 * 24 * 500,
         initialPool: 0.5,
         minBet: 0.01,
         maxBet: 2,
@@ -413,7 +414,7 @@ const initialMarkets = [
                 marketId: "12",
                 amount: 0.2,
                 side: "yes",
-                timestamp: Date.now() - 1000 * 60 * 60 * 25
+                timestamp: NOW - 1000 * 60 * 60 * 25
             },
             {
                 id: "b30",
@@ -421,7 +422,7 @@ const initialMarkets = [
                 marketId: "12",
                 amount: 0.3,
                 side: "no",
-                timestamp: Date.now() - 1000 * 60 * 60 * 26
+                timestamp: NOW - 1000 * 60 * 60 * 26
             }
         ]
     }
@@ -907,18 +908,32 @@ function MainNav() {
     const { account, connect, wallets } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useWallet"])();
     const connectedAddress = account?.address?.toString();
     const [modalOpen, setModalOpen] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState(false);
-    const defiQ = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
-        "MainNav.useSelector[defiQ]": (state)=>{
-            if (!connectedAddress) return 0;
-            const reduxScore = state.markets.userDefiQ[connectedAddress];
-            if (reduxScore !== undefined) return reduxScore;
+    const [defiQ, setDefiQ] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState(0);
+    // useSelector must be at the top level, not inside useEffect!
+    const reduxScore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$redux$2f$dist$2f$react$2d$redux$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSelector"])({
+        "MainNav.useSelector[reduxScore]": (state)=>connectedAddress ? state.markets.userDefiQ[connectedAddress] : undefined
+    }["MainNav.useSelector[reduxScore]"]);
+    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
+        "MainNav.useEffect": ()=>{
+            if (!connectedAddress) {
+                setDefiQ(0);
+                return;
+            }
+            if (reduxScore !== undefined) {
+                setDefiQ(reduxScore);
+                return;
+            }
             if ("TURBOPACK compile-time truthy", 1) {
                 const localScore = localStorage.getItem(`defiq_${connectedAddress}`);
-                if (localScore) return Number(localScore);
+                setDefiQ(localScore ? Number(localScore) : 0);
+            } else {
+                "TURBOPACK unreachable";
             }
-            return 0;
         }
-    }["MainNav.useSelector[defiQ]"]);
+    }["MainNav.useEffect"], [
+        connectedAddress,
+        reduxScore
+    ]);
     const handleConnect = async (walletName)=>{
         const wallet = wallets.find((w)=>w.name.toLowerCase().includes(walletName.toLowerCase()));
         try {
@@ -943,7 +958,7 @@ function MainNav() {
                             children: "🪼"
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 46,
+                            lineNumber: 58,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -955,13 +970,13 @@ function MainNav() {
                             children: "APTopos"
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 47,
+                            lineNumber: 59,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/navigation/index.tsx",
-                    lineNumber: 45,
+                    lineNumber: 57,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(NavLinks, {
@@ -972,7 +987,7 @@ function MainNav() {
                             children: "Markets"
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 50,
+                            lineNumber: 62,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(NavLink, {
@@ -981,7 +996,7 @@ function MainNav() {
                             children: "Create Market"
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 51,
+                            lineNumber: 63,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(NavLink, {
@@ -990,13 +1005,13 @@ function MainNav() {
                             children: "My Bets"
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 52,
+                            lineNumber: 64,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/navigation/index.tsx",
-                    lineNumber: 49,
+                    lineNumber: 61,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SearchBox, {
@@ -1009,20 +1024,20 @@ function MainNav() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 55,
+                            lineNumber: 67,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(SearchInput, {
                             placeholder: "Search markets..."
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 56,
+                            lineNumber: 68,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/navigation/index.tsx",
-                    lineNumber: 54,
+                    lineNumber: 66,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DefiQBox, {
@@ -1036,20 +1051,20 @@ function MainNav() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 59,
+                            lineNumber: 71,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DefiQValue, {
                             children: defiQ
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 60,
+                            lineNumber: 72,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/navigation/index.tsx",
-                    lineNumber: 58,
+                    lineNumber: 70,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(WalletBox, {
@@ -1077,7 +1092,7 @@ function MainNav() {
                                     children: "✓"
                                 }, void 0, false, {
                                     fileName: "[project]/src/navigation/index.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 92,
                                     columnNumber: 15
                                 }, this),
                                 connectedAddress.slice(0, 6),
@@ -1086,7 +1101,7 @@ function MainNav() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 64,
+                            lineNumber: 76,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: ()=>setModalOpen(true),
@@ -1103,7 +1118,7 @@ function MainNav() {
                             children: "Connect Wallet"
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 84,
+                            lineNumber: 96,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$CustomWalletModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1112,28 +1127,28 @@ function MainNav() {
                             onConnect: handleConnect
                         }, void 0, false, {
                             fileName: "[project]/src/navigation/index.tsx",
-                            lineNumber: 100,
+                            lineNumber: 112,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/navigation/index.tsx",
-                    lineNumber: 62,
+                    lineNumber: 74,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/navigation/index.tsx",
-            lineNumber: 44,
+            lineNumber: 56,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/navigation/index.tsx",
-        lineNumber: 43,
+        lineNumber: 55,
         columnNumber: 5
     }, this);
 }
-_s(MainNav, "XKTdpts4m584jpjGvmCHNcrG3Jo=", false, function() {
+_s(MainNav, "2T9J7H9N3WUYe3GysyD3o8PSpaI=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$aptos$2d$labs$2f$wallet$2d$adapter$2d$react$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useWallet"],
