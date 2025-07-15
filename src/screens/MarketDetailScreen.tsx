@@ -3,12 +3,15 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
-import { addBet, closeMarket, claimReward } from "@/store/marketsSlice";
+import { addBet } from "@/store/marketsSlice";
 import { Market, BetSide } from "@/types/market";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { FaCoins, FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaClock, FaTrophy, FaUser, FaUserCircle } from 'react-icons/fa';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { useQuery } from "@tanstack/react-query";
+import { getMarkets } from "@/api/betting";
+import { placeBet, closeMarket, claimReward } from "@/api/betting";
 
 const PieChartWrapper = styled.div`
   display: flex;
@@ -56,16 +59,56 @@ const PieDot = styled.span<{ color: string }>`
   }
 `;
 
+// Helper: Escape HTML to prevent XSS in comments
+function escapeHtml(str: string) {
+  return str.replace(/[&<>'"]/g, function (tag) {
+    const chars: { [key: string]: string } = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    };
+    return chars[tag] || tag;
+  });
+}
+
 export default function MarketDetailScreen() {
   const { id } = useParams<{ id: string }>();
-  const market: Market | undefined = useSelector((state: RootState) => state.markets.markets.find(m => m.id === id));
-  const dispatch = useDispatch();
+  const { data: markets = [], isLoading, isError } = useQuery({
+    queryKey: ["markets"],
+    queryFn: getMarkets,
+    refetchInterval: 10000,
+  });
+  const market = markets.find((m: any) => String(m.id) === String(id));
   const [amount, setAmount] = useState("");
-  const [side, setSide] = useState<BetSide>("yes");
+  const [side, setSide] = useState<"yes" | "no">("yes");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { account, connected } = useWallet();
-  
+  const [now, setNow] = useState(Date.now());
+  const [loading, setLoading] = useState(false);
+  const [closeLoading, setCloseLoading] = useState(false);
+  const [claimLoading, setClaimLoading] = useState(false);
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+  if (isLoading) return <PageContainer>Loading...</PageContainer>;
+  if (isError || !market) return <PageContainer>Market not found or failed to load.</PageContainer>;
+  // On-chain fields
+  const totalYes = (market.yes_bets || []).reduce((sum: number, b: any) => sum + b.amount, 0) / 1e8;
+  const totalNo = (market.no_bets || []).reduce((sum: number, b: any) => sum + b.amount, 0) / 1e8;
+  const totalPool = totalYes + totalNo;
+  const totalBets = (market.yes_bets?.length || 0) + (market.no_bets?.length || 0);
+  const closesAt = (market.closes_at || 0) * 1000;
+  const timeLeft = closesAt - now;
+  const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+  const closed = market.closed;
+
+  const MIN_BET = 0.001;
+  const MAX_BET = 5;
+
   const rewards = useSelector((state: RootState) => state.markets.claimableRewards);
   const myReward = rewards.find(r => r.userId === account?.address?.toString() && r.marketId === market?.id);
   const [comments, setComments] = useState([
@@ -75,66 +118,84 @@ export default function MarketDetailScreen() {
   ]);
   const [commentInput, setCommentInput] = useState("");
 
-  const MIN_BET = 0.001;
-  const MAX_BET = 5;
-
-  if (!market) return <PageContainer><div style={{ textAlign: 'center', padding: '40px' }}>Market not found.</div></PageContainer>;
-
-  const totalYes = market.bets.filter(b => b.side === "yes").reduce((sum, b) => sum + b.amount, 0);
-  const totalNo = market.bets.filter(b => b.side === "no").reduce((sum, b) => sum + b.amount, 0);
-  const totalPool = market.initialPool + market.bets.reduce((sum, b) => sum + b.amount, 0);
-  const totalBets = market.bets.length;
-  const [now, setNow] = useState(Date.now());
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 60000);
-    return () => clearInterval(interval);
-  }, []);
-  const timeLeft = market.closesAt - now;
-
-  const handleBet = (e: React.FormEvent) => {
+  const handleBet = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
     const betAmount = Number(amount);
-    if (isNaN(betAmount) || betAmount < market.minBet || betAmount > market.maxBet) {
-      setError(`Bet amount must be between ${market.minBet} - ${market.maxBet} APT.`);
+    if (isNaN(betAmount) || betAmount < MIN_BET || betAmount > MAX_BET) {
+      setError(`Bet amount must be between ${MIN_BET} - ${MAX_BET} APT.`);
+      setLoading(false);
       return;
     }
     if (!connected || !account?.address) {
       setError("Wallet is not connected.");
+      setLoading(false);
       return;
     }
-    dispatch(addBet({
-      id: uuidv4(),
-      userId: account.address.toString(),
-      marketId: market.id,
-      amount: betAmount,
-      side,
-      timestamp: Date.now()
-    }));
-    setSuccess("Bet placed successfully!");
-    setAmount("");
+    try {
+      // On-chain: amount as integer (1e8)
+      const onChainAmount = Math.round(betAmount * 1e8);
+      const yes = side === "yes";
+      await placeBet(account, market.id, yes, onChainAmount);
+      setSuccess("Bet placed successfully!");
+      setAmount("");
+    } catch (err: any) {
+      setError(err?.message || "Failed to place bet.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleCloseMarket = (result: BetSide) => {
-    dispatch(closeMarket({ marketId: market.id, result }));
+  const handleCloseMarket = async () => {
+    setError("");
+    setSuccess("");
+    setCloseLoading(true);
+    try {
+      if (!connected || !account?.address) {
+        setError("Wallet is not connected.");
+        setCloseLoading(false);
+        return;
+      }
+      // On-chain: close market
+      await closeMarket(account, market.id);
+      setSuccess("Market closed successfully!");
+    } catch (err: any) {
+      setError(err?.message || "Failed to close market.");
+    } finally {
+      setCloseLoading(false);
+    }
   };
 
-  const handleClaim = () => {
-    if (account?.address) {
-      dispatch(claimReward({ userId: account.address.toString(), marketId: market.id }));
+  const handleClaim = async () => {
+    setError("");
+    setSuccess("");
+    setClaimLoading(true);
+    try {
+      if (!connected || !account?.address) {
+        setError("Wallet is not connected.");
+        setClaimLoading(false);
+        return;
+      }
+      await claimReward(account, market.id);
+      setSuccess("Reward claimed successfully!");
+    } catch (err: any) {
+      setError(err?.message || "Failed to claim reward.");
+    } finally {
+      setClaimLoading(false);
     }
   };
 
   const getStatusBadge = () => {
-    if (market.status === "resolved") {
+    if (closed) {
       return (
         <StatusBadge $color={market.result === "yes" ? "green" : "red"}>
           {market.result === "yes" ? <FaCheckCircle /> : <FaTimesCircle />} {market.result === "yes" ? "Yes Won" : "No Won"}
         </StatusBadge>
       );
     }
-    if (market.status === "open") {
+    if (!closed) {
       return (
         <StatusBadge $color="blue">
           <FaClock /> Open
@@ -150,13 +211,14 @@ export default function MarketDetailScreen() {
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!commentInput.trim()) return;
+    const sanitized = escapeHtml(commentInput.trim());
+    if (!sanitized) return;
     setComments([
       ...comments,
       {
         id: Date.now(),
         user: "DemoUser",
-        text: commentInput,
+        text: sanitized,
         date: new Date().toLocaleString(),
       },
     ]);
@@ -243,7 +305,7 @@ export default function MarketDetailScreen() {
         <GradientHeader>
           <MarketTitle>{market.title}</MarketTitle>
           <MarketDesc>{market.description}</MarketDesc>
-          <StatusBadgeLarge $color={market.status === "resolved" ? (market.result === "yes" ? "green" : "red") : market.status === "open" ? "blue" : "gray"}>
+          <StatusBadgeLarge $color={closed ? (market.result === "yes" ? "green" : "red") : "blue"}>
             {getStatusBadge()}
           </StatusBadgeLarge>
         </GradientHeader>
@@ -267,7 +329,7 @@ export default function MarketDetailScreen() {
               <InfoCard>
                 <FaCalendarAlt />
                 <InfoCardContent>
-                  <InfoCardValue>{new Date(market.closesAt).toLocaleString()}</InfoCardValue>
+                  <InfoCardValue>{new Date(closesAt).toLocaleString()}</InfoCardValue>
                   <InfoCardLabel>Closing</InfoCardLabel>
                 </InfoCardContent>
               </InfoCard>
@@ -280,7 +342,7 @@ export default function MarketDetailScreen() {
           </UnifiedLeft>
           <UnifiedRight>
             <ShadowBox>
-              {market.status === "open" ? (
+              {!closed ? (
                 <BetForm onSubmit={handleBet}>
                   <FormRow>
                     <FormCol>
@@ -323,13 +385,13 @@ export default function MarketDetailScreen() {
                   />
                   {error && <ErrorBox><FaTimesCircle /> {error}</ErrorBox>}
                   {success && <SuccessBox><FaCheckCircle /> {success}</SuccessBox>}
-                  <SubmitButton type="submit" disabled={!!error}>Place Bet</SubmitButton>
+                  <SubmitButton type="submit" disabled={!!error || loading}>{loading ? "Placing..." : "Place Bet"}</SubmitButton>
                 </BetForm>
               ) : (
                 <ClosedText>Market closed.</ClosedText>
               )}
 
-              {market.status === "resolved" && (
+              {closed && (
                 <>
                   <ResolvedBox>
                     <FaTrophy /> Result: <b>{market.result === "yes" ? "Yes" : "No"}</b>
@@ -337,7 +399,7 @@ export default function MarketDetailScreen() {
                   {myReward && !myReward.claimed && (
                     <ClaimBox>
                       <FaCoins /> Your reward: <b>{myReward.amount.toFixed(4)} APT</b>
-                      <ClaimButton onClick={handleClaim}>Claim Reward</ClaimButton>
+                      <ClaimButton onClick={handleClaim} disabled={claimLoading}>{claimLoading ? "Claiming..." : "Claim Reward"}</ClaimButton>
                     </ClaimBox>
                   )}
                   {myReward && myReward.claimed && (
@@ -347,24 +409,30 @@ export default function MarketDetailScreen() {
               )}
 
               {/* Dummy oracle: marketi kapat butonları (sadece demoUser için) */}
-              {market.status === "open" && (
+              {!closed && (
                 <OracleBox>
                   <OracleLabel>Set Market Result (Demo Oracle)</OracleLabel>
-                  <OracleButton onClick={() => handleCloseMarket("yes")}>Yes</OracleButton>
-                  <OracleButton onClick={() => handleCloseMarket("no")}>No</OracleButton>
+                  <OracleButton onClick={handleCloseMarket} disabled={closeLoading}>{closeLoading ? "Closing..." : "Close Market"}</OracleButton>
                 </OracleBox>
               )}
             </ShadowBox>
             <ShadowBox style={{ marginTop: 32 }}>
               <BetsList>
                 <BetsTitle>Bets</BetsTitle>
-                {market.bets.length === 0 && <NoBets>No bets yet.</NoBets>}
+                {(market.yes_bets?.length || 0) + (market.no_bets?.length || 0) === 0 && <NoBets>No bets yet.</NoBets>}
                 <BetsTable>
-                  {market.bets.map(bet => (
+                  {(market.yes_bets || []).map((bet: any) => (
                     <BetRow key={bet.id}>
-                      <BetSideBadge $side={bet.side}>{bet.side === "yes" ? "YES" : "NO"}</BetSideBadge>
-                      <BetAmount>{bet.amount} APT</BetAmount>
-                      <BetDate>{new Date(bet.timestamp).toLocaleString()}</BetDate>
+                      <BetSideBadge $side="yes">YES</BetSideBadge>
+                      <BetAmount>{bet.amount / 1e8} APT</BetAmount>
+                      <BetDate>{new Date(bet.timestamp * 1000).toLocaleString()}</BetDate>
+                    </BetRow>
+                  ))}
+                  {(market.no_bets || []).map((bet: any) => (
+                    <BetRow key={bet.id}>
+                      <BetSideBadge $side="no">NO</BetSideBadge>
+                      <BetAmount>{bet.amount / 1e8} APT</BetAmount>
+                      <BetDate>{new Date(bet.timestamp * 1000).toLocaleString()}</BetDate>
                     </BetRow>
                   ))}
                 </BetsTable>
@@ -377,16 +445,16 @@ export default function MarketDetailScreen() {
           <CommentsList>
             {comments.map(c => (
               <CommentItem key={c.id} className="fade-in">
-                <CommentUser><FaUserCircle style={{ marginRight: 6, fontSize: 18 }} />{c.user}</CommentUser>
-                <CommentText>{c.text}</CommentText>
-                <CommentDate>{c.date}</CommentDate>
+                <CommentUser><FaUserCircle style={{ marginRight: 6, fontSize: 18 }} />{escapeHtml(c.user)}</CommentUser>
+                <CommentText>{escapeHtml(c.text)}</CommentText>
+                <CommentDate>{escapeHtml(c.date)}</CommentDate>
               </CommentItem>
             ))}
           </CommentsList>
           <CommentForm onSubmit={handleCommentSubmit}>
             <CommentInput
               value={commentInput}
-              onChange={e => setCommentInput(e.target.value)}
+              onChange={e => setCommentInput(e.target.value.slice(0, 200))}
               placeholder="Write a comment..."
               maxLength={200}
             />

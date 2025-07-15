@@ -3,25 +3,21 @@ export type MarketStatus = "open" | "closed" | "resolved";
 export type BetSide = "yes" | "no";
 
 export interface Bet {
-  id: string;
-  userId: string;
-  marketId: string;
-  amount: number; // ETH cinsinden
-  side: BetSide;
-  timestamp: number;
+  user: string; // Aptos address
+  amount: number; // APT cinsinden (u64)
 }
 
 export interface Market {
-  id: string;
+  id: number; // u64
   title: string;
   description: string;
-  creatorId: string;
-  createdAt: number;
-  closesAt: number;
-  initialPool: number; // Market açılışında eklenen ETH
-  minBet: number;
-  maxBet: number;
-  status: MarketStatus;
-  bets: Bet[];
+  creator: string; // Aptos address
+  created_at: number; // timestamp (u64)
+  closes_at: number; // timestamp (u64)
+  min_bet: number; // u64
+  max_bet: number; // u64
+  closed: boolean;
+  yes_bets: Bet[];
+  no_bets: Bet[];
   result?: BetSide; // Oracle sonucu
 } 

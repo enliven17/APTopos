@@ -7,6 +7,7 @@ import { Market } from "@/types/market";
 import { v4 as uuidv4 } from "uuid";
 import { FaPlus, FaCalendarAlt, FaCoins, FaInfoCircle, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
+import { createMarket } from "@/api/betting";
 
 export default function CreateMarketScreen() {
   const dispatch = useDispatch();
@@ -18,58 +19,67 @@ export default function CreateMarketScreen() {
   const [initialPool, setInitialPool] = useState(0.5);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const { account, connected } = useWallet();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-    if (!title.trim() || !description.trim()) {
-      setError("Title and description are required.");
-      return;
+    setLoading(true);
+    try {
+      if (!title.trim() || !description.trim()) {
+        setError("Title and description are required.");
+        setLoading(false);
+        return;
+      }
+      if (!closesAt) {
+        setError("Closing time must be selected.");
+        setLoading(false);
+        return;
+      }
+      if (minBet <= 0 || maxBet <= 0 || minBet >= maxBet) {
+        setError("Min/max bet limits are invalid.");
+        setLoading(false);
+        return;
+      }
+      if (initialPool < 0.1) {
+        setError("Initial pool must be at least 0.1 APT.");
+        setLoading(false);
+        return;
+      }
+      if (!connected || !account?.address) {
+        setError("Wallet is not connected.");
+        setLoading(false);
+        return;
+      }
+      const closesAtTimestamp = Math.floor(new Date(closesAt).getTime() / 1000); // seconds
+      if (closesAtTimestamp < Date.now() / 1000 + 3600) {
+        setError("Closing time must be at least 1 hour from now.");
+        setLoading(false);
+        return;
+      }
+      // Zincire market oluşturma işlemi
+      await createMarket(
+        account,
+        title,
+        description,
+        closesAtTimestamp,
+        Math.floor(minBet * 1e8), // APT -> octas
+        Math.floor(maxBet * 1e8)  // APT -> octas
+      );
+      setSuccess("Market created successfully! It may take a few seconds to appear on-chain.");
+      setTitle("");
+      setDescription("");
+      setClosesAt("");
+      setMinBet(0.01);
+      setMaxBet(1);
+      setInitialPool(0.5);
+    } catch (err: any) {
+      setError(err?.message || "Failed to create market. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    if (!closesAt) {
-      setError("Closing time must be selected.");
-      return;
-    }
-    if (minBet <= 0 || maxBet <= 0 || minBet >= maxBet) {
-      setError("Min/max bet limits are invalid.");
-      return;
-    }
-    if (initialPool < 0.1) {
-      setError("Initial pool must be at least 0.1 APT.");
-      return;
-    }
-    if (!connected || !account?.address) {
-      setError("Wallet is not connected.");
-      return;
-    }
-    const closesAtTimestamp = new Date(closesAt).getTime();
-    if (closesAtTimestamp < Date.now() + 60 * 60 * 1000) {
-      setError("Closing time must be at least 1 hour from now.");
-      return;
-    }
-    const newMarket: Market = {
-      id: uuidv4(),
-      title,
-      description,
-      creatorId: account.address.toString(),
-      createdAt: Date.now(),
-      closesAt: closesAtTimestamp,
-      initialPool,
-      minBet,
-      maxBet,
-      status: "open",
-      bets: []
-    };
-    dispatch(addMarket(newMarket));
-    setSuccess("Market created successfully!");
-    setTitle("");
-    setDescription("");
-    setClosesAt("");
-    setMinBet(0.01);
-    setMaxBet(1);
-    setInitialPool(0.5);
   };
 
   return (
@@ -197,9 +207,8 @@ export default function CreateMarketScreen() {
           </SuccessContainer>
         )}
 
-        <SubmitButton type="submit" disabled={!connected}>
-          <FaPlus />
-          Create Market
+        <SubmitButton type="submit" disabled={!connected || loading}>
+          {loading ? "Creating..." : (<><FaPlus /> Create Market</>)}
         </SubmitButton>
         <InfoBox>
                       Newly created markets must first be approved before going live. If your market is not approved, the APT you provided for the pool will be refunded to your wallet.

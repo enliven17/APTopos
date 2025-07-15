@@ -5,17 +5,24 @@ import { MarketCard } from "@/components/MarketCard";
 import styled from "styled-components";
 import { useState } from "react";
 import { FaFire, FaFilter, FaChartLine, FaClock, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { useQuery } from "@tanstack/react-query";
+import { getMarkets } from "@/api/betting";
 
 export default function HomePage() {
   const [filter, setFilter] = useState<"open" | "closed" | "all">("open");
-  const markets = useSelector((state: RootState) => state.markets.markets);
-  const filteredMarkets = markets.filter(m =>
-    filter === "all" ? true : filter === "open" ? m.status === "open" : m.status !== "open"
+  // On-chain markets
+  const { data: markets = [], isLoading, isError } = useQuery({
+    queryKey: ["markets"],
+    queryFn: getMarkets,
+    refetchInterval: 10000, // refresh every 10s
+  });
+  const filteredMarkets = markets.filter((m: any) =>
+    filter === "all" ? true : filter === "open" ? !m.closed : m.closed
   );
-
-  const openMarkets = markets.filter(m => m.status === "open").length;
-  const resolvedMarkets = markets.filter(m => m.status === "resolved").length;
-  const totalPool = markets.reduce((sum, m) => sum + m.initialPool + m.bets.reduce((bSum, b) => bSum + b.amount, 0), 0);
+  const openMarkets = markets.filter((m: any) => !m.closed).length;
+  const resolvedMarkets = markets.filter((m: any) => m.closed).length;
+  // Pool calculation may need adjustment based on on-chain fields
+  const totalPool = markets.reduce((sum: number, m: any) => sum + (m.yes_bets?.reduce((s: number, b: any) => s + b.amount, 0) || 0) + (m.no_bets?.reduce((s: number, b: any) => s + b.amount, 0) || 0), 0) / 1e8;
 
   return (
     <Container>
@@ -78,22 +85,24 @@ export default function HomePage() {
           <FilterCount>{filteredMarkets.length} markets</FilterCount>
         </FilterHeader>
         <FilterBar>
-          <FilterButton $active={filter === "open"} onClick={() => setFilter("open")}>
-            <FaClock />
-            Open Markets
-          </FilterButton>
-          <FilterButton $active={filter === "closed"} onClick={() => setFilter("closed")}>
-            <FaCheckCircle />
-            Resolved
-          </FilterButton>
-          <FilterButton $active={filter === "all"} onClick={() => setFilter("all")}>
-            <FaFire />
-            All Markets
-          </FilterButton>
+          <FilterButton $active={filter === "open"} onClick={() => setFilter("open")}> <FaClock /> Open Markets </FilterButton>
+          <FilterButton $active={filter === "closed"} onClick={() => setFilter("closed")}> <FaCheckCircle /> Resolved </FilterButton>
+          <FilterButton $active={filter === "all"} onClick={() => setFilter("all")}> <FaFire /> All Markets </FilterButton>
         </FilterBar>
       </FilterSection>
 
-      {filteredMarkets.length === 0 ? (
+      {isLoading ? (
+        <EmptyState>
+          <EmptyIcon>⏳</EmptyIcon>
+          <EmptyTitle>Loading markets...</EmptyTitle>
+        </EmptyState>
+      ) : isError ? (
+        <EmptyState>
+          <EmptyIcon>⚠️</EmptyIcon>
+          <EmptyTitle>Failed to load markets</EmptyTitle>
+          <EmptyText>Check your connection or try again later.</EmptyText>
+        </EmptyState>
+      ) : filteredMarkets.length === 0 ? (
         <EmptyState>
           <EmptyIcon>🔮</EmptyIcon>
           <EmptyTitle>No markets found</EmptyTitle>
@@ -107,7 +116,7 @@ export default function HomePage() {
         </EmptyState>
       ) : (
         <MarketsGrid>
-          {filteredMarkets.map(market => (
+          {filteredMarkets.map((market: any) => (
             <MarketCard key={market.id} market={market} />
           ))}
         </MarketsGrid>
