@@ -1,90 +1,69 @@
-import { Aptos } from "@aptos-labs/ts-sdk";
-import { aptosConfig, MODULE_ADDRESS } from "@/config/aptosConfig";
-import { Market, Bet, BetSide } from "@/types/market";
+import { Market } from "@/types/market";
 
-const aptos = new Aptos(aptosConfig);
-
-// Helper: get full module name
+const MODULE_ADDRESS = process.env.NEXT_PUBLIC_MODULE_ADDRESS || "0xea0dd23db979ddd6965505226d310bf52bf8d6087cc968d6760d54728d4ab5be";
 const MODULE = `${MODULE_ADDRESS}::betting`;
 
-const NODE_URL = aptosConfig.network === "testnet"
-  ? "https://fullnode.testnet.aptoslabs.com/v1"
-  : "https://fullnode.mainnet.aptoslabs.com/v1";
-
-const MARKETS_RESOURCE = `${MODULE_ADDRESS}::betting::Markets`;
-
-// Fetch markets directly from the resource using REST API
 export async function getMarkets(): Promise<Market[]> {
-  const url = `${NODE_URL}/accounts/${MODULE_ADDRESS}/resource/${MARKETS_RESOURCE}`;
   try {
-    const res = await fetch(url);
+    const res = await fetch("/api/markets");
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    // The markets are in data.data.markets
-    return data.data.markets as Market[];
+    return data as Market[];
   } catch (err) {
-    console.error("Failed to fetch markets from REST API:", err);
+    console.error("Failed to fetch markets from API route:", err);
     throw new Error("Failed to load markets from chain.");
   }
 }
 
-// 2. Create a new market (transaction)
-export async function createMarket(account: any) {
-  const tx = await aptos.transaction.build.simple({
-    sender: account.address,
-    data: {
-      function: `${MODULE}::create_market`,
-      functionArguments: [],
-      typeArguments: [],
-    },
-  });
-  const senderAuthenticator = await account.signTransaction(tx);
-  return aptos.transaction.submit.simple({ transaction: tx, senderAuthenticator });
+export async function createMarket(
+  address: string,
+  signAndSubmitTransaction: (payload: unknown) => Promise<unknown>
+) {
+  const payload = {
+    function: `${MODULE}::create_market`,
+    type_arguments: [],
+    arguments: [],
+  };
+  return signAndSubmitTransaction(payload);
 }
 
-// 3. Place a bet (transaction)
 export async function placeBet(
-  account: any,
+  address: string,
+  signAndSubmitTransaction: (payload: unknown) => Promise<unknown>,
   market_id: number,
   yes: boolean,
   amount: number
 ) {
-  const tx = await aptos.transaction.build.simple({
-    sender: account.address,
-    data: {
-      function: `${MODULE}::place_bet`,
-      functionArguments: [market_id, yes, amount],
-      typeArguments: [],
-    },
-  });
-  const senderAuthenticator = await account.signTransaction(tx);
-  return aptos.transaction.submit.simple({ transaction: tx, senderAuthenticator });
+  const payload = {
+    function: `${MODULE}::place_bet`,
+    type_arguments: [],
+    arguments: [market_id, yes, amount],
+  };
+  return signAndSubmitTransaction(payload);
 }
 
-// 4. Close a market (transaction)
-export async function closeMarket(account: any, market_id: number) {
-  const tx = await aptos.transaction.build.simple({
-    sender: account.address,
-    data: {
-      function: `${MODULE}::close_market`,
-      functionArguments: [market_id],
-      typeArguments: [],
-    },
-  });
-  const senderAuthenticator = await account.signTransaction(tx);
-  return aptos.transaction.submit.simple({ transaction: tx, senderAuthenticator });
+export async function closeMarket(
+  address: string,
+  signAndSubmitTransaction: (payload: unknown) => Promise<unknown>,
+  market_id: number
+) {
+  const payload = {
+    function: `${MODULE}::close_market`,
+    type_arguments: [],
+    arguments: [market_id],
+  };
+  return signAndSubmitTransaction(payload);
 }
 
-// 5. Claim reward (transaction)
-export async function claimReward(account: any, market_id: number) {
-  const tx = await aptos.transaction.build.simple({
-    sender: account.address,
-    data: {
-      function: `${MODULE}::claim_reward`,
-      functionArguments: [market_id],
-      typeArguments: [],
-    },
-  });
-  const senderAuthenticator = await account.signTransaction(tx);
-  return aptos.transaction.submit.simple({ transaction: tx, senderAuthenticator });
+export async function claimReward(
+  address: string,
+  signAndSubmitTransaction: (payload: unknown) => Promise<unknown>,
+  market_id: number
+) {
+  const payload = {
+    function: `${MODULE}::claim_reward`,
+    type_arguments: [],
+    arguments: [market_id],
+  };
+  return signAndSubmitTransaction(payload);
 } 

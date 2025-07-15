@@ -2,12 +2,11 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import styled from "styled-components";
-import { useState, useEffect } from 'react';
-import { FaTrophy, FaClock, FaCheckCircle, FaTimesCircle, FaCoins, FaBrain } from 'react-icons/fa';
+import { FaClock, FaCheckCircle, FaTimesCircle, FaCoins, FaBrain } from 'react-icons/fa';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 export default function UserBetsScreen() {
-  const { account, connected } = useWallet();
+  const { account } = useWallet();
 
   const markets = useSelector((state: RootState) => state.markets.markets);
   const rewards = useSelector((state: RootState) => state.markets.claimableRewards);
@@ -17,17 +16,15 @@ export default function UserBetsScreen() {
   });
 
   // Kullanıcının tüm bahisleri
-  const myBets = account?.address ? markets.flatMap(m => m.bets.filter(b => b.userId === account.address.toString()).map(b => ({ ...b, market: m }))) : [];
+  const myBets = account?.address
+    ? markets.flatMap(m => [
+        ...(m.yes_bets || []).map(b => ({ ...b, market: m, side: "yes" })),
+        ...(m.no_bets || []).map(b => ({ ...b, market: m, side: "no" })),
+      ].filter(b => b.user === account.address.toString()))
+    : [];
 
   // Kazanılan bahisler (ödül claim edilebilir veya edildi)
   const myRewards = account?.address ? rewards.filter(r => r.userId === account.address.toString()) : [];
-
-  const getStatusIcon = (status: string, result?: string, side?: string) => {
-    if (status === "resolved") {
-      return result === side ? <FaCheckCircle /> : <FaTimesCircle />;
-    }
-    return <FaClock />;
-  };
 
   return (
     <Container>
@@ -64,11 +61,11 @@ export default function UserBetsScreen() {
         ) : (
           <BetsGrid>
             {myBets.map(bet => (
-              <BetCard key={bet.id}>
+              <BetCard key={bet.market.id + '-' + bet.side}>
                 <BetHeader>
                   <BetMarket>{bet.market.title}</BetMarket>
                   <BetStatus>
-                    {bet.market.status === "resolved"
+                    {bet.market.closed
                       ? bet.market.result === bet.side
                         ? <WinIcon><FaCheckCircle /></WinIcon>
                         : <LoseIcon><FaTimesCircle /></LoseIcon>
@@ -92,7 +89,7 @@ export default function UserBetsScreen() {
                   <BetDetail>
                     <DetailLabel>Status</DetailLabel>
                     <DetailValue>
-                      {bet.market.status === "resolved"
+                      {bet.market.closed
                         ? bet.market.result === bet.side
                           ? <Win>Won</Win>
                           : <Lose>Lost</Lose>
@@ -102,8 +99,8 @@ export default function UserBetsScreen() {
                 </BetDetails>
                 
                 <BetFooter>
-                  <BetDate>{new Date(bet.timestamp).toLocaleDateString()}</BetDate>
-                  <BetTime>{new Date(bet.timestamp).toLocaleTimeString()}</BetTime>
+                  <BetDate>{new Date(bet.market.closes_at * 1000).toLocaleDateString()}</BetDate>
+                  <BetTime>{new Date(bet.market.closes_at * 1000).toLocaleTimeString()}</BetTime>
                 </BetFooter>
               </BetCard>
             ))}

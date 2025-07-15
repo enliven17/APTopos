@@ -26,7 +26,7 @@ export function MoveCreateMarketButton() {
         Move ile Market Aç
       </button>
       {loading && <span>İşlem gönderiliyor...</span>}
-      {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
+      {typeof result === "object" && result !== null && <pre>{JSON.stringify(result, null, 2)}</pre>}
       {error && <span style={{ color: 'red' }}>{error}</span>}
     </div>
   );

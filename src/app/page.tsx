@@ -1,28 +1,27 @@
 "use client";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import { MarketCard } from "@/components/MarketCard";
 import styled from "styled-components";
 import { useState } from "react";
-import { FaFire, FaFilter, FaChartLine, FaClock, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaFire, FaFilter, FaChartLine, FaClock, FaCheckCircle } from 'react-icons/fa';
 import { useQuery } from "@tanstack/react-query";
 import { getMarkets } from "@/api/betting";
+import { Market } from "@/types/market";
 
 export default function HomePage() {
   const [filter, setFilter] = useState<"open" | "closed" | "all">("open");
   // On-chain markets
-  const { data: markets = [], isLoading, isError } = useQuery({
+  const { data: markets = [], isLoading, isError } = useQuery<Market[]>({
     queryKey: ["markets"],
     queryFn: getMarkets,
     refetchInterval: 10000, // refresh every 10s
   });
-  const filteredMarkets = markets.filter((m: any) =>
+  const filteredMarkets = markets.filter((m: Market) =>
     filter === "all" ? true : filter === "open" ? !m.closed : m.closed
   );
-  const openMarkets = markets.filter((m: any) => !m.closed).length;
-  const resolvedMarkets = markets.filter((m: any) => m.closed).length;
+  const openMarkets = markets.filter((m: Market) => !m.closed).length;
+  const resolvedMarkets = markets.filter((m: Market) => m.closed).length;
   // Pool calculation may need adjustment based on on-chain fields
-  const totalPool = markets.reduce((sum: number, m: any) => sum + (m.yes_bets?.reduce((s: number, b: any) => s + b.amount, 0) || 0) + (m.no_bets?.reduce((s: number, b: any) => s + b.amount, 0) || 0), 0) / 1e8;
+  const totalPool = markets.reduce((sum: number, m: Market) => sum + (m.yes_bets?.reduce((s: number, b: { amount: number }) => s + b.amount, 0) || 0) + (m.no_bets?.reduce((s: number, b: { amount: number }) => s + b.amount, 0) || 0), 0) / 1e8;
 
   return (
     <Container>
@@ -116,7 +115,7 @@ export default function HomePage() {
         </EmptyState>
       ) : (
         <MarketsGrid>
-          {filteredMarkets.map((market: any) => (
+          {filteredMarkets.map((market: Market) => (
             <MarketCard key={market.id} market={market} />
           ))}
         </MarketsGrid>

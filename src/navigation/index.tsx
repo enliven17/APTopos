@@ -6,7 +6,6 @@ import { FaSearch, FaBrain } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import CustomWalletModal from "@/components/CustomWalletModal";
 import React from "react";
 
@@ -46,7 +45,11 @@ export function MainNav() {
         await connect(wallet.name);
       }
     } catch (e) {
-      alert((e as any)?.message || e);
+      if (e && typeof e === 'object' && 'message' in e && typeof (e as { message?: string }).message === 'string') {
+        alert((e as { message: string }).message);
+      } else {
+        alert('Unknown error');
+      }
     }
     setModalOpen(false);
   };

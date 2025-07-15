@@ -1,17 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/store";
-import { addBet } from "@/store/marketsSlice";
-import { Market, BetSide } from "@/types/market";
-import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
-import { FaCoins, FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaClock, FaTrophy, FaUser, FaUserCircle } from 'react-icons/fa';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useQuery } from "@tanstack/react-query";
 import { getMarkets } from "@/api/betting";
-import { placeBet, closeMarket, claimReward } from "@/api/betting";
+import { placeBet, closeMarket } from "@/api/betting";
+import styled from "styled-components";
+import { FaCoins, FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaClock, FaTrophy, FaUser, FaUserCircle } from 'react-icons/fa';
 
 const PieChartWrapper = styled.div`
   display: flex;
@@ -80,41 +75,40 @@ export default function MarketDetailScreen() {
     queryFn: getMarkets,
     refetchInterval: 10000,
   });
-  const market = markets.find((m: any) => String(m.id) === String(id));
+  const market = markets.find((m: { id: string | number }) => String(m.id) === String(id));
   const [amount, setAmount] = useState("");
   const [side, setSide] = useState<"yes" | "no">("yes");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { account, connected } = useWallet();
-  const [now, setNow] = useState(Date.now());
+  const { account, connected, signAndSubmitTransaction } = useWallet();
   const [loading, setLoading] = useState(false);
   const [closeLoading, setCloseLoading] = useState(false);
-  const [claimLoading, setClaimLoading] = useState(false);
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 60000);
-    return () => clearInterval(interval);
-  }, []);
-  if (isLoading) return <PageContainer>Loading...</PageContainer>;
-  if (isError || !market) return <PageContainer>Market not found or failed to load.</PageContainer>;
-  // On-chain fields
-  const totalYes = (market.yes_bets || []).reduce((sum: number, b: any) => sum + b.amount, 0) / 1e8;
-  const totalNo = (market.no_bets || []).reduce((sum: number, b: any) => sum + b.amount, 0) / 1e8;
-  const totalPool = totalYes + totalNo;
-  const totalBets = (market.yes_bets?.length || 0) + (market.no_bets?.length || 0);
-  const closesAt = (market.closes_at || 0) * 1000;
-  const timeLeft = closesAt - now;
-  const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
-  const closed = market.closed;
-
-  const MIN_BET = 0.001;
-  const MAX_BET = 5;
-
   const [comments, setComments] = useState([
     { id: 1, user: "Alice", text: "I think this market is very interesting!", date: "2024-07-06 20:00" },
     { id: 2, user: "Bob", text: "My bet is on YES 🚀", date: "2024-07-06 20:10" },
     { id: 3, user: "Charlie", text: "I'm not so sure, but good luck everyone!", date: "2024-07-06 20:15" },
   ]);
   const [commentInput, setCommentInput] = useState("");
+
+  useEffect(() => {
+    // Sadece component mount olduğunda çalışacak bir örnek
+    // Eğer now değişkeni kullanılmıyorsa kaldırıldı
+  }, []);
+
+  if (typeof window === "undefined") return null;
+  if (isLoading) return <PageContainer>Loading...</PageContainer>;
+  if (isError || !market) return <PageContainer>Market not found or failed to load.</PageContainer>;
+
+  // On-chain fields
+  const totalYes = (market.yes_bets || []).reduce((sum: number, b: { amount: number }) => sum + b.amount, 0) / 1e8;
+  const totalNo = (market.no_bets || []).reduce((sum: number, b: { amount: number }) => sum + b.amount, 0) / 1e8;
+  const totalPool = totalYes + totalNo;
+  const totalBets = (market.yes_bets?.length || 0) + (market.no_bets?.length || 0);
+  const closesAt = (market.closes_at || 0) * 1000;
+  const closed = market.closed;
+
+  const MIN_BET = 0.001;
+  const MAX_BET = 5;
 
   const handleBet = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,11 +130,16 @@ export default function MarketDetailScreen() {
       // On-chain: amount as integer (1e8)
       const onChainAmount = Math.round(betAmount * 1e8);
       const yes = side === "yes";
-      await placeBet(account, market.id, yes, onChainAmount);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await placeBet(account.address.toString(), signAndSubmitTransaction as any, market.id, yes, onChainAmount);
       setSuccess("Bet placed successfully!");
       setAmount("");
-    } catch (err: any) {
-      setError(err?.message || "Failed to place bet.");
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
+        setError((err as { message: string }).message);
+      } else {
+        setError("Failed to place bet.");
+      }
     } finally {
       setLoading(false);
     }
@@ -157,31 +156,17 @@ export default function MarketDetailScreen() {
         return;
       }
       // On-chain: close market
-      await closeMarket(account, market.id);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await closeMarket(account.address.toString(), signAndSubmitTransaction as any, market.id);
       setSuccess("Market closed successfully!");
-    } catch (err: any) {
-      setError(err?.message || "Failed to close market.");
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
+        setError((err as { message: string }).message);
+      } else {
+        setError("Failed to close market.");
+      }
     } finally {
       setCloseLoading(false);
-    }
-  };
-
-  const handleClaim = async () => {
-    setError("");
-    setSuccess("");
-    setClaimLoading(true);
-    try {
-      if (!connected || !account?.address) {
-        setError("Wallet is not connected.");
-        setClaimLoading(false);
-        return;
-      }
-      await claimReward(account, market.id);
-      setSuccess("Reward claimed successfully!");
-    } catch (err: any) {
-      setError(err?.message || "Failed to claim reward.");
-    } finally {
-      setClaimLoading(false);
     }
   };
 
@@ -229,7 +214,6 @@ export default function MarketDetailScreen() {
     const yesPct = total > 0 ? (yes / total) * 100 : 50;
     const noPct = 100 - yesPct;
     const yesAngle = (yesPct / 100) * 360;
-    const noAngle = 360 - yesAngle;
     // Yes arc: start at -90, end at -90+yesAngle
     const yesArc = yesPct > 0 ? describeArc(70, 70, 50, -90, -90 + yesAngle) : '';
     // No arc: start at -90+yesAngle, end at 270
@@ -420,18 +404,18 @@ export default function MarketDetailScreen() {
                 <BetsTitle>Bets</BetsTitle>
                 {(market.yes_bets?.length || 0) + (market.no_bets?.length || 0) === 0 && <NoBets>No bets yet.</NoBets>}
                 <BetsTable>
-                  {(market.yes_bets || []).map((bet: any) => (
-                    <BetRow key={bet.id}>
+                  {(market.yes_bets || []).map((bet, idx) => (
+                    <BetRow key={idx}>
                       <BetSideBadge $side="yes">YES</BetSideBadge>
-                      <BetAmount>{bet.amount / 1e8} APT</BetAmount>
-                      <BetDate>{new Date(bet.timestamp * 1000).toLocaleString()}</BetDate>
+                      <BetUser>{bet.user.slice(0, 8)}...{bet.user.slice(-4)}</BetUser>
+                      <BetAmount>+{(bet.amount / 1e8).toFixed(3)} APT</BetAmount>
                     </BetRow>
                   ))}
-                  {(market.no_bets || []).map((bet: any) => (
-                    <BetRow key={bet.id}>
+                  {(market.no_bets || []).map((bet, idx) => (
+                    <BetRow key={idx}>
                       <BetSideBadge $side="no">NO</BetSideBadge>
-                      <BetAmount>{bet.amount / 1e8} APT</BetAmount>
-                      <BetDate>{new Date(bet.timestamp * 1000).toLocaleString()}</BetDate>
+                      <BetUser>{bet.user.slice(0, 8)}...{bet.user.slice(-4)}</BetUser>
+                      <BetAmount>-{(bet.amount / 1e8).toFixed(3)} APT</BetAmount>
                     </BetRow>
                   ))}
                 </BetsTable>
@@ -703,36 +687,7 @@ const ResolvedBox = styled.div`
   gap: 10px;
 `;
 
-const ClaimBox = styled.div`
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.accentGreen};
-  padding: 14px 18px;
-  border-radius: 12px;
-  margin-bottom: 8px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-`;
 
-const ClaimButton = styled.button`
-  background: ${({ theme }) => theme.colors.accentGreen};
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 20px;
-  font-weight: bold;
-  cursor: pointer;
-`;
-
-const ClaimedText = styled.div`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  font-size: 15px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
 
 const OracleBox = styled.div`
   margin: 24px 0 8px 0;
@@ -803,16 +758,19 @@ const BetSideBadge = styled.span<{ $side: string }>`
   text-transform: uppercase;
 `;
 
+const BetUser = styled.span`
+  color: ${({ theme }) => theme.colors.primary};
+  font-weight: 600;
+  font-size: 1rem;
+`;
+
 const BetAmount = styled.span`
   color: ${({ theme }) => theme.colors.primary};
   font-weight: 700;
   min-width: 60px;
 `;
 
-const BetDate = styled.span`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  font-size: 13px;
-`;
+
 
 const CommentsSection = styled.div`
   margin-top: 48px;

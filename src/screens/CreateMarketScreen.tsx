@@ -1,16 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { addMarket } from "@/store/marketsSlice";
-import { Market } from "@/types/market";
-import { v4 as uuidv4 } from "uuid";
-import { FaPlus, FaCalendarAlt, FaCoins, FaInfoCircle, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { createMarket } from "@/api/betting";
+import { FaPlus, FaCalendarAlt, FaCoins, FaInfoCircle, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 
 export default function CreateMarketScreen() {
-  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [closesAt, setClosesAt] = useState("");
@@ -20,7 +15,7 @@ export default function CreateMarketScreen() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const { account, connected } = useWallet();
+  const { account, connected, signAndSubmitTransaction } = useWallet();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +55,8 @@ export default function CreateMarketScreen() {
         return;
       }
       // Zincire market oluşturma işlemi
-      await createMarket(account);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await createMarket(account.address.toString(), signAndSubmitTransaction as any);
       setSuccess("Market created successfully! It may take a few seconds to appear on-chain.");
       setTitle("");
       setDescription("");
@@ -68,8 +64,12 @@ export default function CreateMarketScreen() {
       setMinBet(0.01);
       setMaxBet(1);
       setInitialPool(0.5);
-    } catch (err: any) {
-      setError(err?.message || "Failed to create market. Please try again.");
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
+        setError((err as { message: string }).message);
+      } else {
+        setError("Failed to create market. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
