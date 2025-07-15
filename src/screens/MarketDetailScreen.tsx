@@ -109,8 +109,6 @@ export default function MarketDetailScreen() {
   const MIN_BET = 0.001;
   const MAX_BET = 5;
 
-  const rewards = useSelector((state: RootState) => state.markets.claimableRewards);
-  const myReward = rewards.find(r => r.userId === account?.address?.toString() && r.marketId === market?.id);
   const [comments, setComments] = useState([
     { id: 1, user: "Alice", text: "I think this market is very interesting!", date: "2024-07-06 20:00" },
     { id: 2, user: "Bob", text: "My bet is on YES 🚀", date: "2024-07-06 20:10" },
@@ -396,15 +394,16 @@ export default function MarketDetailScreen() {
                   <ResolvedBox>
                     <FaTrophy /> Result: <b>{market.result === "yes" ? "Yes" : "No"}</b>
                   </ResolvedBox>
-                  {myReward && !myReward.claimed && (
+                  {/* Claiming reward logic removed as per edit hint */}
+                  {/* {myReward && !myReward.claimed && (
                     <ClaimBox>
                       <FaCoins /> Your reward: <b>{myReward.amount.toFixed(4)} APT</b>
                       <ClaimButton onClick={handleClaim} disabled={claimLoading}>{claimLoading ? "Claiming..." : "Claim Reward"}</ClaimButton>
                     </ClaimBox>
-                  )}
-                  {myReward && myReward.claimed && (
+                  )} */}
+                  {/* {myReward && myReward.claimed && (
                     <ClaimedText><FaCheckCircle /> Your reward has been claimed!</ClaimedText>
-                  )}
+                  )} */}
                 </>
               )}
 

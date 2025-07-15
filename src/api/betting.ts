@@ -7,33 +7,34 @@ const aptos = new Aptos(aptosConfig);
 // Helper: get full module name
 const MODULE = `${MODULE_ADDRESS}::betting`;
 
-// 1. Get all markets (view)
+const NODE_URL = aptosConfig.network === "testnet"
+  ? "https://fullnode.testnet.aptoslabs.com/v1"
+  : "https://fullnode.mainnet.aptoslabs.com/v1";
+
+const MARKETS_RESOURCE = `${MODULE_ADDRESS}::betting::Markets`;
+
+// Fetch markets directly from the resource using REST API
 export async function getMarkets(): Promise<Market[]> {
-  // This assumes a view function exists in Move: get_markets()
-  const res = await aptos.view({
-    payload: {
-      function: `${MODULE}::get_markets`,
-      typeArguments: [],
-      functionArguments: [],
-    },
-  });
-  return res as Market[];
+  const url = `${NODE_URL}/accounts/${MODULE_ADDRESS}/resource/${MARKETS_RESOURCE}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    // The markets are in data.data.markets
+    return data.data.markets as Market[];
+  } catch (err) {
+    console.error("Failed to fetch markets from REST API:", err);
+    throw new Error("Failed to load markets from chain.");
+  }
 }
 
 // 2. Create a new market (transaction)
-export async function createMarket(
-  account: any, // Wallet adapter account
-  title: string,
-  description: string,
-  closes_at: number,
-  min_bet: number,
-  max_bet: number
-) {
+export async function createMarket(account: any) {
   const tx = await aptos.transaction.build.simple({
     sender: account.address,
     data: {
       function: `${MODULE}::create_market`,
-      functionArguments: [title, description, closes_at, min_bet, max_bet],
+      functionArguments: [],
       typeArguments: [],
     },
   });

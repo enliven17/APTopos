@@ -3,6 +3,7 @@ import { Market } from "@/types/market";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { FaClock, FaCheckCircle, FaTimesCircle, FaCoins, FaUsers, FaCalendarAlt } from 'react-icons/fa';
+import { Bet } from "@/types/market";
 
 interface Props {
   market: Market;
@@ -57,33 +58,57 @@ export function MarketCard({ market }: Props) {
   };
 
   const getStatusIcon = () => {
-    if (market.status === "resolved") {
+    if (status === "resolved") {
       return market.result === "yes" ? <FaCheckCircle /> : <FaTimesCircle />;
+    }
+    if (status === "closed") {
+      return <FaTimesCircle />;
     }
     return <FaClock />;
   };
 
   const getStatusColor = () => {
-    if (market.status === "resolved") {
+    if (status === "resolved") {
       return market.result === "yes" ? "green" : "red";
+    }
+    if (status === "closed") {
+      return "red";
     }
     return "blue";
   };
 
-  const totalPool = market.initialPool + market.bets.reduce((sum, b) => sum + b.amount, 0);
-  const totalBets = market.bets.length;
-  const timeLeft = market.closesAt - now;
+  const totalPool =
+    (market.yes_bets?.reduce((sum: number, b: Bet) => sum + b.amount, 0) || 0) +
+    (market.no_bets?.reduce((sum: number, b: Bet) => sum + b.amount, 0) || 0);
+  const totalBets =
+    (market.yes_bets?.length || 0) +
+    (market.no_bets?.length || 0);
+  const timeLeft = market.closes_at - now;
   const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+
+  // Status helpers for Move struct
+  const getStatus = () => {
+    if (market.closed && market.result) return "resolved";
+    if (market.closed) return "closed";
+    return "open";
+  };
+  const status = getStatus();
 
   return (
     <Card onClick={handleCardClick}>
       <CardHeader>
         <StatusBadge $status={getStatusColor()}>
           {getStatusIcon()}
-          {market.status === "open" ? "Open" : market.status === "resolved" ? (market.result === "yes" ? "Yes Won" : "No Won") : "Closed"}
+          {status === "open"
+            ? "Open"
+            : status === "resolved"
+            ? market.result === "yes"
+              ? "Yes Won"
+              : "No Won"
+            : "Closed"}
         </StatusBadge>
         <TimeLeft>
-          {market.status === "open" ? (
+          {status === "open" ? (
             <>
               <FaCalendarAlt />
               {daysLeft > 0 ? `${daysLeft} days left` : "Closing soon"}
@@ -126,11 +151,7 @@ export function MarketCard({ market }: Props) {
         <InfoRow>
           <Info>
             <InfoLabel>Min/Max Bet</InfoLabel>
-            <InfoValue>{market.minBet} / {market.maxBet} APT</InfoValue>
-          </Info>
-          <Info>
-            <InfoLabel>Initial Pool</InfoLabel>
-            <InfoValue>{market.initialPool} APT</InfoValue>
+            <InfoValue>{(market.min_bet / 1e8).toFixed(2)} / {(market.max_bet / 1e8).toFixed(2)} APT</InfoValue>
           </Info>
         </InfoRow>
       </CardContent>

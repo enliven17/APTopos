@@ -60,14 +60,7 @@ export default function CreateMarketScreen() {
         return;
       }
       // Zincire market oluşturma işlemi
-      await createMarket(
-        account,
-        title,
-        description,
-        closesAtTimestamp,
-        Math.floor(minBet * 1e8), // APT -> octas
-        Math.floor(maxBet * 1e8)  // APT -> octas
-      );
+      await createMarket(account);
       setSuccess("Market created successfully! It may take a few seconds to appear on-chain.");
       setTitle("");
       setDescription("");

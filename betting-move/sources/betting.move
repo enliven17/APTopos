@@ -1,7 +1,8 @@
-module 0x6010ec52c45f2a2b1599cce4078a822d0fe70e4830f990c3e48bc49ba721b410::betting {
+module 0xea0dd23db979ddd6965505226d310bf52bf8d6087cc968d6760d54728d4ab5be::betting {
 
     use std::signer;
     use std::option;
+    use std::string;
     use aptos_framework::coin::Coin;
     use aptos_framework::aptos_coin::AptosCoin;
     use std::vector;
@@ -11,9 +12,14 @@ module 0x6010ec52c45f2a2b1599cce4078a822d0fe70e4830f990c3e48bc49ba721b410::betti
         amount: u64,
     }
 
-    struct Market has key, store {
+    struct Market has key, store, copy {
         id: u64,
         creator: address,
+        title: string::String,
+        description: string::String,
+        closes_at: u64,
+        min_bet: u64,
+        max_bet: u64,
         total_yes: u64,
         total_no: u64,
         closed: bool,
@@ -28,16 +34,28 @@ module 0x6010ec52c45f2a2b1599cce4078a822d0fe70e4830f990c3e48bc49ba721b410::betti
         next_id: u64,
     }
 
-    public fun init(account: &signer) {
+    public entry fun init(account: &signer) {
         move_to(account, Markets { markets: vector::empty<Market>(), next_id: 0 });
     }
 
-    public entry fun create_market(account: &signer) acquires Markets {
+    public entry fun create_market(
+        account: &signer,
+        title: string::String,
+        description: string::String,
+        closes_at: u64,
+        min_bet: u64,
+        max_bet: u64
+    ) acquires Markets {
         let addr = signer::address_of(account);
         let markets = borrow_global_mut<Markets>(addr);
         let market = Market {
             id: markets.next_id,
             creator: addr,
+            title,
+            description,
+            closes_at,
+            min_bet,
+            max_bet,
             total_yes: 0,
             total_no: 0,
             closed: false,
@@ -102,6 +120,12 @@ module 0x6010ec52c45f2a2b1599cce4078a822d0fe70e4830f990c3e48bc49ba721b410::betti
             }
         };
         assert!(win_amount > 0, 203);
+    }
+
+    public fun get_markets(): vector<Market> acquires Markets {
+        let addr = @0x6010ec52c45f2a2b1599cce4078a822d0fe70e4830f990c3e48bc49ba721b410;
+        let markets = borrow_global<Markets>(addr);
+        markets.markets
     }
 
     fun find_bet_amount(bets: &vector<Bet>, addr: address, idx: u64): u64 {
