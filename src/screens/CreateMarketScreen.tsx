@@ -23,47 +23,47 @@ export default function CreateMarketScreen() {
     setSuccess("");
     setLoading(true);
     try {
-      if (!title.trim() || !description.trim()) {
-        setError("Title and description are required.");
+    if (!title.trim() || !description.trim()) {
+      setError("Title and description are required.");
         setLoading(false);
-        return;
-      }
-      if (!closesAt) {
-        setError("Closing time must be selected.");
+      return;
+    }
+    if (!closesAt) {
+      setError("Closing time must be selected.");
         setLoading(false);
-        return;
-      }
-      if (minBet <= 0 || maxBet <= 0 || minBet >= maxBet) {
-        setError("Min/max bet limits are invalid.");
+      return;
+    }
+    if (minBet <= 0 || maxBet <= 0 || minBet >= maxBet) {
+      setError("Min/max bet limits are invalid.");
         setLoading(false);
-        return;
-      }
-      if (initialPool < 0.1) {
-        setError("Initial pool must be at least 0.1 APT.");
+      return;
+    }
+    if (initialPool < 0.1) {
+      setError("Initial pool must be at least 0.1 APT.");
         setLoading(false);
-        return;
-      }
-      if (!connected || !account?.address) {
-        setError("Wallet is not connected.");
+      return;
+    }
+    if (!connected || !account?.address) {
+      setError("Wallet is not connected.");
         setLoading(false);
-        return;
-      }
+      return;
+    }
       const closesAtTimestamp = Math.floor(new Date(closesAt).getTime() / 1000); // seconds
       if (closesAtTimestamp < Date.now() / 1000 + 3600) {
-        setError("Closing time must be at least 1 hour from now.");
+      setError("Closing time must be at least 1 hour from now.");
         setLoading(false);
-        return;
-      }
+      return;
+    }
       // Zincire market oluşturma işlemi
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await createMarket(account.address.toString(), signAndSubmitTransaction as any);
       setSuccess("Market created successfully! It may take a few seconds to appear on-chain.");
-      setTitle("");
-      setDescription("");
-      setClosesAt("");
-      setMinBet(0.01);
-      setMaxBet(1);
-      setInitialPool(0.5);
+    setTitle("");
+    setDescription("");
+    setClosesAt("");
+    setMinBet(0.01);
+    setMaxBet(1);
+    setInitialPool(0.5);
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
         setError((err as { message: string }).message);

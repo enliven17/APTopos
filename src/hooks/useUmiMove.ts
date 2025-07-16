@@ -13,9 +13,9 @@ export function useAptosMove() {
     try {
       const payload = {
         data: {
-          function: functionName,
-          type_arguments: typeArguments,
-          arguments: args
+        function: functionName,
+        type_arguments: typeArguments,
+        arguments: args
         }
       };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

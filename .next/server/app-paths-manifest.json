@@ -1,8 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/api/markets/route": "app/api/markets/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/create/page": "app/create/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/market/[id]/page": "app/market/[id]/page.js",
   "/page": "app/page.js",
   "/user-bets/page": "app/user-bets/page.js"

@@ -20,4 +20,6 @@ export interface Market {
   yes_bets: Bet[];
   no_bets: Bet[];
   result?: BetSide; // Oracle sonucu
+  txHash?: string; // Zincir işlemi hash'i
+  onChain?: boolean; // Zincire yazıldı mı
 } 

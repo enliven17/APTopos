@@ -27,7 +27,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
   return (
     // @ts-expect-error AptosWalletAdapterProvider type mismatch
-    <AptosWalletAdapterProvider wallets={wallets} autoConnect={false} dappConfig={{ network: Network.TESTNET }}>
+    <AptosWalletAdapterProvider wallets={wallets} autoConnect={true} dappConfig={{ network: Network.TESTNET }}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>

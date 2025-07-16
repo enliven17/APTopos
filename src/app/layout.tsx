@@ -21,10 +21,10 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className="test">
-        <AppProviders>
-          <MainNav />
-          {children}
-        </AppProviders>
+          <AppProviders>
+            <MainNav />
+            {children}
+          </AppProviders>
       </body>
     </html>
   );

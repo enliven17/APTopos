@@ -99,6 +99,29 @@ export default function MarketDetailScreen() {
   if (isLoading) return <PageContainer>Loading...</PageContainer>;
   if (isError || !market) return <PageContainer>Market not found or failed to load.</PageContainer>;
 
+  // On-chain indicator and tx hash
+  const explorerBase = "https://explorer.aptoslabs.com/txn/";
+  const onChainBadge = market.onChain ? (
+    <span style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      background: '#10B981',
+      color: '#fff',
+      borderRadius: 8,
+      padding: '2px 10px',
+      fontWeight: 600,
+      fontSize: 13,
+      marginRight: 10
+    }}>
+      ✓ Zincirde
+      {market.txHash && (
+        <a href={`${explorerBase}${market.txHash}`} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', marginLeft: 8, textDecoration: 'underline' }}>
+          (Tx)
+        </a>
+      )}
+    </span>
+  ) : null;
+
   // On-chain fields
   const totalYes = (market.yes_bets || []).reduce((sum: number, b: { amount: number }) => sum + b.amount, 0) / 1e8;
   const totalNo = (market.no_bets || []).reduce((sum: number, b: { amount: number }) => sum + b.amount, 0) / 1e8;
@@ -132,8 +155,8 @@ export default function MarketDetailScreen() {
       const yes = side === "yes";
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await placeBet(account.address.toString(), signAndSubmitTransaction as any, market.id, yes, onChainAmount);
-      setSuccess("Bet placed successfully!");
-      setAmount("");
+    setSuccess("Bet placed successfully!");
+    setAmount("");
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
         setError((err as { message: string }).message);
@@ -285,7 +308,10 @@ export default function MarketDetailScreen() {
     <PageContainer>
       <UnifiedCard>
         <GradientHeader>
-          <MarketTitle>{market.title}</MarketTitle>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
+            {onChainBadge}
+            <h1 style={{ margin: 0 }}>{market.title}</h1>
+          </div>
           <MarketDesc>{market.description}</MarketDesc>
           <StatusBadgeLarge $color={closed ? (market.result === "yes" ? "green" : "red") : "blue"}>
             {getStatusBadge()}
