@@ -1,4 +1,4 @@
-module 0xea0dd23db979ddd6965505226d310bf52bf8d6087cc968d6760d54728d4ab5be::betting {
+module 0xac2cddcdfa2bf42b20594ed20ec5f3a784445b82f09a0c996c92339ac262f8df::betting {
 
     use std::signer;
     use std::option;

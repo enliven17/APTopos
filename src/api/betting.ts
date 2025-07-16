@@ -1,6 +1,6 @@
 import { Market } from "@/types/market";
 
-const MODULE_ADDRESS = process.env.NEXT_PUBLIC_MODULE_ADDRESS || "0xea0dd23db979ddd6965505226d310bf52bf8d6087cc968d6760d54728d4ab5be";
+const MODULE_ADDRESS = process.env.NEXT_PUBLIC_MODULE_ADDRESS || "0xac2cddcdfa2bf42b20594ed20ec5f3a784445b82f09a0c996c92339ac262f8df";
 const MODULE = `${MODULE_ADDRESS}::betting`;
 
 export async function getMarkets(): Promise<Market[]> {
@@ -17,14 +17,20 @@ export async function getMarkets(): Promise<Market[]> {
 
 export async function createMarket(
   address: string,
-  signAndSubmitTransaction: (payload: unknown) => Promise<unknown>
+  signAndSubmitTransaction: (payload: unknown) => Promise<unknown>,
+  title: string,
+  description: string,
+  closesAt: number,
+  minBet: number,
+  maxBet: number
 ) {
-  const payload = {
+  const transactionPayload = {
+    type: "entry_function_payload",
     function: `${MODULE}::create_market`,
     type_arguments: [],
-    arguments: [],
+    arguments: [title, description, closesAt, minBet, maxBet],
   };
-  return signAndSubmitTransaction(payload);
+  return signAndSubmitTransaction(transactionPayload);
 }
 
 export async function placeBet(
@@ -34,25 +40,28 @@ export async function placeBet(
   yes: boolean,
   amount: number
 ) {
-  const payload = {
+  const transactionPayload = {
+    type: "entry_function_payload",
     function: `${MODULE}::place_bet`,
     type_arguments: [],
     arguments: [market_id, yes, amount],
   };
-  return signAndSubmitTransaction(payload);
+  return signAndSubmitTransaction(transactionPayload);
 }
 
 export async function closeMarket(
   address: string,
   signAndSubmitTransaction: (payload: unknown) => Promise<unknown>,
-  market_id: number
+  market_id: number,
+  result: boolean
 ) {
-  const payload = {
+  const transactionPayload = {
+    type: "entry_function_payload",
     function: `${MODULE}::close_market`,
     type_arguments: [],
-    arguments: [market_id],
+    arguments: [market_id, result],
   };
-  return signAndSubmitTransaction(payload);
+  return signAndSubmitTransaction(transactionPayload);
 }
 
 export async function claimReward(
@@ -60,10 +69,11 @@ export async function claimReward(
   signAndSubmitTransaction: (payload: unknown) => Promise<unknown>,
   market_id: number
 ) {
-  const payload = {
+  const transactionPayload = {
+    type: "entry_function_payload",
     function: `${MODULE}::claim_reward`,
     type_arguments: [],
     arguments: [market_id],
   };
-  return signAndSubmitTransaction(payload);
+  return signAndSubmitTransaction(transactionPayload);
 } 

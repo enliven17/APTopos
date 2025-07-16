@@ -11,7 +11,7 @@ interface Props {
 }
 
 const MIN_BET = 0.001;
-const MAX_BET = 5;
+const MAX_BET = 1;
 
 export function MarketCard({ market }: Props) {
   const [modal, setModal] = useState<null | "yes" | "no">(null);
@@ -96,7 +96,30 @@ export function MarketCard({ market }: Props) {
 
   return (
     <Card onClick={handleCardClick}>
-      <CardHeader>
+      {/* Eski mutlak konumlu on-chain badge kaldırıldı */}
+      <CardHeader style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {market.onChain && (
+          <div style={{
+            background: '#10B981',
+            color: '#fff',
+            borderRadius: 12,
+            padding: '3px 14px',
+            fontWeight: 700,
+            fontSize: 14,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            boxShadow: '0 2px 8px #0002',
+            letterSpacing: 0.2,
+          }}>
+            ✓ On-chain
+            {market.txHash && (
+              <a href={`https://explorer.aptoslabs.com/txn/${market.txHash}?network=testnet`} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', marginLeft: 8, textDecoration: 'underline', fontWeight: 500 }}>
+                (Tx)
+              </a>
+            )}
+          </div>
+        )}
         <StatusBadge $status={getStatusColor()}>
           {getStatusIcon()}
           {status === "open"

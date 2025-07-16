@@ -3,24 +3,24 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { createMarket } from "@/api/betting";
+import { MODULE_ADDRESS } from "@/config/aptosConfig";
 import { FaPlus, FaCalendarAlt, FaCoins, FaInfoCircle, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 
 export default function CreateMarketScreen() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [closesAt, setClosesAt] = useState("");
-  const [minBet, setMinBet] = useState(0.01);
-  const [maxBet, setMaxBet] = useState(1);
-  const [initialPool, setInitialPool] = useState(0.5);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const { account, connected, signAndSubmitTransaction } = useWallet();
+  const [txHash, setTxHash] = useState<string | null>(null);
+  const { account, connected, signAndSubmitTransaction, network } = useWallet();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setTxHash(null);
     setLoading(true);
     try {
     if (!title.trim() || !description.trim()) {
@@ -33,43 +33,70 @@ export default function CreateMarketScreen() {
         setLoading(false);
       return;
     }
-    if (minBet <= 0 || maxBet <= 0 || minBet >= maxBet) {
-      setError("Min/max bet limits are invalid.");
-        setLoading(false);
-      return;
-    }
-    if (initialPool < 0.1) {
-      setError("Initial pool must be at least 0.1 APT.");
-        setLoading(false);
-      return;
-    }
-    if (!connected || !account?.address) {
-      setError("Wallet is not connected.");
-        setLoading(false);
-      return;
-    }
-      const closesAtTimestamp = Math.floor(new Date(closesAt).getTime() / 1000); // seconds
-      if (closesAtTimestamp < Date.now() / 1000 + 3600) {
-      setError("Closing time must be at least 1 hour from now.");
-        setLoading(false);
-      return;
-    }
       // Zincire market oluşturma işlemi
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await createMarket(account.address.toString(), signAndSubmitTransaction as any);
+      const minBet = 0.001 * 1e8; // Convert to octas
+      const maxBet = 1 * 1e8; // Convert to octas
+      if (!account?.address) {
+        setError("Wallet is not connected.");
+        setLoading(false);
+        return;
+      }
+      if (!signAndSubmitTransaction) {
+        setError("Wallet transaction signing is not available.");
+        setLoading(false);
+        return;
+      }
+      if (network?.name !== "testnet") {
+        setError("Please connect to Aptos testnet network.");
+        setLoading(false);
+        return;
+      }
+      console.log("Network:", network);
+      console.log("Account:", account);
+      console.log("Connected:", connected);
+      console.log("SignAndSubmitTransaction function:", typeof signAndSubmitTransaction);
+      const result = await createMarket(
+        account.address.toString(),
+        signAndSubmitTransaction as any,
+        title,
+        description,
+        Math.floor(new Date(closesAt).getTime() / 1000), // seconds
+        minBet,
+        maxBet
+      );
+      // Transaction hash'i yakala
+      const txResult = result as any;
+      const hash = txResult.hash || txResult.transactionHash || txResult.txnHash || txResult.tx_hash || txResult.txHash;
+      setTxHash(hash || null);
       setSuccess("Market created successfully! It may take a few seconds to appear on-chain.");
     setTitle("");
     setDescription("");
     setClosesAt("");
-    setMinBet(0.01);
-    setMaxBet(1);
-    setInitialPool(0.5);
     } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
-        setError((err as { message: string }).message);
-      } else {
-        setError("Failed to create market. Please try again.");
+      let errorMessage = "Failed to create market. Please try again.";
+      
+      // Güvenli error logging
+      try {
+        if (err !== undefined && err !== null) {
+          console.error("Create market error:", err);
+          
+          if (typeof err === 'object') {
+            const errorObj = err as { message?: string };
+            if (errorObj.message && typeof errorObj.message === 'string') {
+              errorMessage = errorObj.message;
+            }
+          } else if (typeof err === 'string') {
+            errorMessage = err;
+          }
+        } else {
+          console.error("Create market error: undefined or null error object");
+        }
+      } catch (loggingError) {
+        console.error("Error while logging error:", loggingError);
       }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -131,55 +158,9 @@ export default function CreateMarketScreen() {
             />
             <HelpText>Market will close at this time and no more bets will be accepted</HelpText>
           </FormGroup>
-
-          <BetLimitsRow>
-            <FormGroup>
-              <Label>Minimum Bet (APT)</Label>
-              <Input 
-                type="number" 
-                step="0.01" 
-                min={0.01} 
-                value={minBet} 
-                onChange={e => setMinBet(Number(e.target.value))} 
-                required 
-              />
-            </FormGroup>
-            
-            <FormGroup>
-              <Label>Maximum Bet (APT)</Label>
-              <Input 
-                type="number" 
-                step="0.01" 
-                min={0.01} 
-                value={maxBet} 
-                onChange={e => setMaxBet(Number(e.target.value))} 
-                required 
-              />
-            </FormGroup>
-          </BetLimitsRow>
           <BetLimitsInfo>
-            Minimum bet must be at least 0.001 APT and maximum bet cannot exceed 5 APT. The values you select must be within this range.
+            Minimum bet is <b>0.001 APT</b> and maximum bet is <b>1 APT</b> for all markets.
           </BetLimitsInfo>
-        </FormSection>
-
-        <FormSection>
-          <SectionTitle>
-            <FaCoins />
-            Pool Configuration
-          </SectionTitle>
-          
-          <FormGroup>
-            <Label>Initial Pool (APT)</Label>
-            <Input 
-              type="number" 
-              step="0.01" 
-              min={0.1} 
-              value={initialPool} 
-              onChange={e => setInitialPool(Number(e.target.value))} 
-              required 
-            />
-            <HelpText>Starting amount in the betting pool</HelpText>
-          </FormGroup>
         </FormSection>
 
         {error && (
@@ -191,18 +172,75 @@ export default function CreateMarketScreen() {
           </ErrorContainer>
         )}
         
-        {success && (
+        {(success || txHash) && (
           <SuccessContainer>
             <SuccessIcon>
               <FaCheckCircle />
             </SuccessIcon>
-            <SuccessText>{success}</SuccessText>
+            <SuccessText>
+              {success && <span>{success}<br /></span>}
+              {txHash && (
+                <span>
+                  Transaction Hash: <a href={`https://explorer.aptoslabs.com/txn/${txHash}?network=testnet`} target="_blank" rel="noopener noreferrer" style={{ color: '#10B981', textDecoration: 'underline' }}>{txHash}</a>
+                </span>
+              )}
+            </SuccessText>
           </SuccessContainer>
         )}
 
         <SubmitButton type="submit" disabled={!connected || loading}>
           {loading ? "Creating..." : (<><FaPlus /> Create Market</>)}
         </SubmitButton>
+        {connected && (
+          <button 
+            type="button" 
+            onClick={async () => {
+              try {
+                console.log("Testing wallet connection...");
+                console.log("Account:", account);
+                console.log("Network:", network);
+                console.log("SignAndSubmitTransaction available:", !!signAndSubmitTransaction);
+                console.log("SignAndSubmitTransaction type:", typeof signAndSubmitTransaction);
+                
+                // Basit wallet connection test
+                console.log("Wallet connection test:");
+                console.log("- Connected:", connected);
+                console.log("- Account address:", account?.address);
+                console.log("- Network:", network?.name);
+                console.log("- SignAndSubmitTransaction type:", typeof signAndSubmitTransaction);
+                
+                if (connected && account?.address) {
+                  alert("Wallet is properly connected! Now try creating a market.");
+                } else {
+                  alert("Wallet connection issue detected. Please reconnect your wallet.");
+                }
+              } catch (err) {
+                console.error("Wallet test error:", err);
+                alert("Wallet test failed. Check console for details.");
+              }
+            }}
+            style={{
+              marginTop: 16,
+              padding: '12px 24px',
+              background: '#6B7280',
+              color: 'white',
+              border: 'none',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              fontSize: '14px'
+            }}
+          >
+            Test Wallet Connection
+          </button>
+        )}
+        {!connected && (
+          <InfoBox style={{ marginTop: 16, background: '#FEF3C7', borderLeftColor: '#F59E0B', color: '#92400E' }}>
+            Please connect your wallet to create a market. Make sure you have some testnet APT tokens for transaction fees. 
+            <a href="https://aptoslabs.com/testnet-faucet" target="_blank" rel="noopener noreferrer" style={{ color: '#92400E', textDecoration: 'underline', marginLeft: 4 }}>
+              Get testnet APT here
+            </a>
+          </InfoBox>
+        )}
         <InfoBox>
                       Newly created markets must first be approved before going live. If your market is not approved, the APT you provided for the pool will be refunded to your wallet.
         </InfoBox>

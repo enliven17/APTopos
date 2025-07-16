@@ -107,15 +107,17 @@ export default function MarketDetailScreen() {
       alignItems: 'center',
       background: '#10B981',
       color: '#fff',
-      borderRadius: 8,
-      padding: '2px 10px',
-      fontWeight: 600,
-      fontSize: 13,
-      marginRight: 10
+      borderRadius: 12,
+      padding: '3px 14px',
+      fontWeight: 700,
+      fontSize: 14,
+      marginRight: 12,
+      boxShadow: '0 2px 8px #0002',
+      letterSpacing: 0.2
     }}>
-      ✓ Zincirde
+      ✓ On-chain
       {market.txHash && (
-        <a href={`${explorerBase}${market.txHash}`} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', marginLeft: 8, textDecoration: 'underline' }}>
+        <a href={`https://explorer.aptoslabs.com/txn/${market.txHash}?network=testnet`} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', marginLeft: 8, textDecoration: 'underline', fontWeight: 500 }}>
           (Tx)
         </a>
       )}
@@ -131,7 +133,7 @@ export default function MarketDetailScreen() {
   const closed = market.closed;
 
   const MIN_BET = 0.001;
-  const MAX_BET = 5;
+  const MAX_BET = 1;
 
   const handleBet = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,7 +170,7 @@ export default function MarketDetailScreen() {
     }
   };
 
-  const handleCloseMarket = async () => {
+  const handleCloseMarket = async (result: boolean) => {
     setError("");
     setSuccess("");
     setCloseLoading(true);
@@ -178,10 +180,10 @@ export default function MarketDetailScreen() {
         setCloseLoading(false);
         return;
       }
-      // On-chain: close market
+      // On-chain: close market with result
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await closeMarket(account.address.toString(), signAndSubmitTransaction as any, market.id);
-      setSuccess("Market closed successfully!");
+      await closeMarket(account.address.toString(), signAndSubmitTransaction as any, market.id, result);
+      setSuccess(`Market closed successfully with result: ${result ? 'Yes' : 'No'}!`);
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'message' in err && typeof (err as { message?: string }).message === 'string') {
         setError((err as { message: string }).message);
@@ -418,12 +420,7 @@ export default function MarketDetailScreen() {
               )}
 
               {/* Dummy oracle: marketi kapat butonları (sadece demoUser için) */}
-              {!closed && (
-                <OracleBox>
-                  <OracleLabel>Set Market Result (Demo Oracle)</OracleLabel>
-                  <OracleButton onClick={handleCloseMarket} disabled={closeLoading}>{closeLoading ? "Closing..." : "Close Market"}</OracleButton>
-                </OracleBox>
-              )}
+              {/* OracleBox ve handleCloseMarket fonksiyonunu ve ilgili butonları kaldır */}
             </ShadowBox>
             <ShadowBox style={{ marginTop: 32 }}>
               <BetsList>
