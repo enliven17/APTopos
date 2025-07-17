@@ -12,12 +12,18 @@ export function MoveCreateMarketButton() {
     const args = [
       'Trump 2025',
       'Will Trump be president?',
-      10000000000000000, // min_bet (0.01 APT)
-      1000000000000000000, // max_bet (1 APT)
+      100000000, // min_bet (0.001 APT)
+      100000000, // max_bet (1 APT)
       Math.floor(Date.now() / 1000) + 86400, // closes_at (timestamp)
-      100000000000000000, // initial_pool (0.1 APT)
+      100000000, // initial_pool (0.1 APT)
     ];
-    await execute(`${MODULE_ADDRESS}::polymarket::create_market`, args);
+    console.log("Move ile market oluşturma args:", args);
+    try {
+      const result = await execute(`${MODULE_ADDRESS}::polymarket::create_market`, args);
+      console.log("Move ile market oluşturma sonucu:", result);
+    } catch (err) {
+      console.error("Move ile market oluşturma hatası:", err);
+    }
   };
 
   return (

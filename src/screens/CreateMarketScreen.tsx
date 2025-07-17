@@ -45,6 +45,7 @@ export default function CreateMarketScreen() {
       if (!signAndSubmitTransaction) {
         setError("Wallet transaction signing is not available.");
         setLoading(false);
+        console.error("signAndSubmitTransaction fonksiyonu undefined! Wallet bağlantısı veya provider ile ilgili bir sorun olabilir.");
         return;
       }
       if (network?.name !== "testnet") {
@@ -56,23 +57,53 @@ export default function CreateMarketScreen() {
       console.log("Account:", account);
       console.log("Connected:", connected);
       console.log("SignAndSubmitTransaction function:", typeof signAndSubmitTransaction);
-      const result = await createMarket(
-        account.address.toString(),
-        signAndSubmitTransaction as any,
+      const closesAtSeconds = Math.floor(new Date(closesAt).getTime() / 1000);
+      const payload = {
+        address: account.address.toString(),
         title,
         description,
-        Math.floor(new Date(closesAt).getTime() / 1000), // seconds
+        closesAt: closesAtSeconds,
         minBet,
         maxBet
-      );
-      // Transaction hash'i yakala
-      const txResult = result as any;
-      const hash = txResult.hash || txResult.transactionHash || txResult.txnHash || txResult.tx_hash || txResult.txHash;
-      setTxHash(hash || null);
-      setSuccess("Market created successfully! It may take a few seconds to appear on-chain.");
-    setTitle("");
-    setDescription("");
-    setClosesAt("");
+      };
+      console.log("Market oluşturma payload'u:", payload);
+      try {
+        const result = await createMarket(
+          account.address.toString(),
+          signAndSubmitTransaction as any,
+          title,
+          description,
+          closesAtSeconds,
+          minBet,
+          maxBet
+        );
+        // Transaction hash'i yakala
+        const txResult = result as any;
+        const hash = txResult.hash || txResult.transactionHash || txResult.txnHash || txResult.tx_hash || txResult.txHash;
+        setTxHash(hash || null);
+        setSuccess("Market created successfully! It may take a few seconds to appear on-chain.");
+        setTitle("");
+        setDescription("");
+        setClosesAt("");
+      } catch (err) {
+        let errorMessage = "Failed to create market. Please try again.";
+        if (err && typeof err === "object") {
+          if ("message" in err && typeof (err as any).message === "string") {
+            errorMessage = (err as any).message;
+            console.error("Create market error (object):", err);
+          } else {
+            errorMessage = JSON.stringify(err);
+            console.error("Create market error (object, no message):", err);
+          }
+        } else if (typeof err === "string") {
+          errorMessage = err;
+          console.error("Create market error (string):", err);
+        } else {
+          errorMessage = String(err);
+          console.error("Create market error (unknown):", err);
+        }
+        setError(errorMessage);
+      }
     } catch (err: unknown) {
       let errorMessage = "Failed to create market. Please try again.";
       

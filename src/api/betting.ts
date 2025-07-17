@@ -24,12 +24,21 @@ export async function createMarket(
   minBet: number,
   maxBet: number
 ) {
+  // Tüm değerlerin tipini zincirin beklediği şekilde number olarak gönder
+  const args = [
+    String(title),
+    String(description),
+    Number(closesAt),
+    Number(minBet),
+    Number(maxBet)
+  ];
   const transactionPayload = {
     type: "entry_function_payload",
     function: `${MODULE}::create_market`,
     type_arguments: [],
-    arguments: [title, description, closesAt, minBet, maxBet],
+    arguments: args,
   };
+  console.log("[createMarket] Transaction payload:", transactionPayload);
   return signAndSubmitTransaction(transactionPayload);
 }
 
